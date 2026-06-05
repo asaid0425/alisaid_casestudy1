@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ali Said — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<meta name="ext-resource-dependency" content="visuals/bmw-initial-state.png" data-resource-id="bmwInitial" />
+<script type="application/json" id="speaker-notes">
+[
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  ""
+]
+</script>
+<style>
+  deck-stage:not(:defined) { visibility: hidden; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #000; }
+
+  deck-stage {
+    --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+
+    --bg: #0a0a0b;
+    --bg-2: #121214;
+    --ink: #f4f2ed;
+    --ink-2: #a3a09a;
+    --ink-3: #66645f;
+    --line: rgba(244,242,237,0.14);
+    --line-soft: rgba(244,242,237,0.08);
+    --accent: #f4f2ed;
+
+    --lbg: #efece5;
+    --lbg-2: #e3dfd5;
+    --link: #16150f;
+    --link-2: #5b584f;
+    --lline: rgba(22,21,15,0.16);
+
+    --t-display: 132px;
+    --t-brand: 92px;
+    --t-title: 68px;
+    --t-quote: 60px;
+    --t-lead: 36px;
+    --t-step: 32px;
+    --t-body: 27px;
+    --t-label: 24px;
+
+    --px: 116px;
+    --pt: 90px;
+    --pb: 78px;
+  }
+
+  deck-stage > section {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    display: flex;
+    flex-direction: column;
+    padding: var(--pt) var(--px) var(--pb);
+    overflow: hidden;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- shared atoms ---------- */
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: var(--t-label);
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .eyebrow .bar { width: 34px; height: 2px; background: var(--accent); display: inline-block; }
+
+  .title { font-size: var(--t-title); line-height: 1.03; letter-spacing: -0.02em; font-weight: 600; margin: 0; text-wrap: balance; }
+  .lead { font-size: var(--t-lead); line-height: 1.34; font-weight: 400; letter-spacing: -0.01em; margin: 0; }
+  .body { font-size: var(--t-body); line-height: 1.5; color: var(--ink-2); margin: 0; font-weight: 400; }
+
+  .foot {
+    margin-top: auto;
+    padding-top: 30px;
+    border-top: 1px solid var(--line-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: var(--t-label);
+    letter-spacing: 0.16em;
+    color: var(--ink-3);
+    text-transform: uppercase;
+  }
+  .foot .r { letter-spacing: 0.2em; }
+
+  .scrubber {
+    height: 12px;
+    position: relative;
+    background-image: repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 56px);
+    border-bottom: 1px solid var(--line);
+  }
+  .scrubber::after { content: ""; position: absolute; left: 0; bottom: -1px; width: 22%; height: 2px; background: var(--accent); }
+
+  .head-block { margin-bottom: 56px; }
+  .head-block .title { margin-top: 22px; }
+
+  /* ---------- cover ---------- */
+  .cover { justify-content: center; }
+  .cover .eyebrow { margin-bottom: 56px; }
+  .cover .name { font-size: var(--t-display); line-height: 0.92; letter-spacing: -0.045em; font-weight: 600; margin: 0; }
+  .cover .roles { font-size: var(--t-lead); color: var(--ink-2); letter-spacing: 0.02em; margin: 38px 0 0; font-weight: 400; }
+  .cover .pos { font-size: 30px; line-height: 1.5; color: var(--ink); max-width: 920px; margin: 64px 0 0; font-weight: 400; }
+  .cover .scrubber { margin-top: 72px; width: 64%; }
+
+  /* ---------- about ---------- */
+  .about-grid { margin-top: auto; margin-bottom: auto; display: grid; grid-template-columns: 1.35fr 0.85fr; gap: 96px; align-items: start; }
+  .about-grid .stmt { font-size: 44px; line-height: 1.24; letter-spacing: -0.02em; font-weight: 400; margin: 0 0 36px; }
+  .about-grid .stmt em { font-style: normal; color: var(--ink); }
+  .teams-label { font-family: var(--mono); font-size: var(--t-label); letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 22px; }
+  .teams { display: flex; flex-direction: column; gap: 0; }
+  .teams .t { font-size: 36px; font-weight: 500; letter-spacing: -0.01em; padding: 17px 0; border-top: 1px solid var(--line-soft); color: var(--ink); }
+  .teams .t:last-child { border-bottom: 1px solid var(--line-soft); }
+  .teams .t span { font-family: var(--mono); font-size: 24px; color: var(--ink-3); letter-spacing: 0.08em; float: right; font-weight: 400; }
+
+  /* ---------- philosophy quote ---------- */
+  .quote-slide { justify-content: center; }
+  .quote-slide .mark { font-family: var(--mono); font-size: var(--t-label); letter-spacing: 0.26em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 52px; }
+  .quote { font-size: var(--t-quote); line-height: 1.18; letter-spacing: -0.025em; font-weight: 500; max-width: 1480px; margin: 0; }
+  .quote b { color: var(--ink); font-weight: 500; }
+  .quote .two { color: var(--ink-3); font-weight: 500; }
+  .quote-sub { font-size: 30px; line-height: 1.5; color: var(--ink-2); max-width: 1000px; margin: 56px 0 0; }
+
+  /* ---------- grids (process / ux laws) ---------- */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 64px; row-gap: 52px; margin-top: auto; margin-bottom: auto; }
+  .cell { border-top: 1px solid var(--line); padding-top: 26px; }
+  .cell .n { font-family: var(--mono); font-size: 24px; letter-spacing: 0.14em; color: var(--ink-3); }
+  .cell h3 { font-size: var(--t-step); line-height: 1.12; letter-spacing: -0.015em; font-weight: 500; margin: 18px 0 14px; }
+  .cell p { font-size: var(--t-body); line-height: 1.45; color: var(--ink-2); margin: 0; }
+  .cell .law { font-family: var(--mono); font-size: 26px; letter-spacing: 0.01em; color: var(--ink); margin: 18px 0 14px; font-weight: 500; }
+
+  /* ---------- case opener (text + image) ---------- */
+  .case { display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 88px; flex: 1; align-items: center; }
+  .case-text .brand { font-size: var(--t-brand); line-height: 0.96; letter-spacing: -0.03em; font-weight: 600; margin: 22px 0 0; }
+  .case-text .desc { font-size: var(--t-lead); line-height: 1.22; letter-spacing: -0.015em; color: var(--ink); margin: 20px 0 0; font-weight: 400; }
+  .case-text .body { margin-top: 26px; max-width: 680px; }
+  .meta { font-family: var(--mono); font-size: var(--t-label); letter-spacing: 0.06em; color: var(--ink-3); margin: 32px 0 0; }
+  .tags { display: flex; flex-wrap: wrap; gap: 14px 12px; margin-top: 30px; }
+  .tags span { font-family: var(--mono); font-size: 24px; letter-spacing: 0.04em; color: var(--ink-2); padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; }
+  .tags.tags-color span:nth-child(1) { color: oklch(0.66 0.13 190); border-color: oklch(0.66 0.13 190 / 0.55); }
+  .tags.tags-color span:nth-child(2) { color: oklch(0.65 0.14 210); border-color: oklch(0.65 0.14 210 / 0.55); }
+  .tags.tags-color span:nth-child(3) { color: oklch(0.64 0.15 230); border-color: oklch(0.64 0.15 230 / 0.55); }
+  .tags.tags-color span:nth-child(4) { color: oklch(0.62 0.16 250); border-color: oklch(0.62 0.16 250 / 0.55); }
+  .tags.tags-color span:nth-child(5) { color: oklch(0.61 0.16 268); border-color: oklch(0.61 0.16 268 / 0.55); }
+  .tags.tags-color span:nth-child(6) { color: oklch(0.6 0.16 286); border-color: oklch(0.6 0.16 286 / 0.55); }
+  .tags.tags-color span:nth-child(7) { color: oklch(0.6 0.16 300); border-color: oklch(0.6 0.16 300 / 0.55); }
+  .tags.tags-color span:nth-child(8) { color: oklch(0.62 0.15 200); border-color: oklch(0.62 0.15 200 / 0.55); }
+  image-slot { display: block; }
+  .case image-slot { width: 100%; height: 600px; }
+
+  /* ---------- BMW devices ---------- */
+  .devices { display: grid; grid-template-columns: repeat(4, 1fr); gap: 36px; margin-top: auto; }
+  .device .cap { font-family: var(--mono); font-size: 24px; letter-spacing: 0.04em; color: var(--ink-2); margin-top: 18px; display: flex; justify-content: space-between; }
+  .device .cap b { color: var(--ink); font-weight: 500; }
+  .device image-slot { width: 100%; height: 430px; }
+
+  /* ---------- problem / execution / result shells ---------- */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 92px; flex: 1; align-items: center; }
+  .split.lean { grid-template-columns: 0.92fr 1.08fr; }
+  .big { font-size: 42px; line-height: 1.22; letter-spacing: -0.02em; font-weight: 400; margin: 0; }
+  .big b { font-weight: 500; }
+  .stmt-lg { font-size: 44px; line-height: 1.22; letter-spacing: -0.02em; font-weight: 400; margin: 0; }
+
+  .points { list-style: none; margin: 0; padding: 0; }
+  .points li { font-size: 28px; line-height: 1.36; color: var(--ink); padding: 19px 0; border-top: 1px solid var(--line-soft); display: flex; gap: 20px; align-items: baseline; }
+  .points li:last-child { border-bottom: 1px solid var(--line-soft); }
+  .points li i { font-family: var(--mono); font-style: normal; color: var(--ink-3); font-size: 24px; min-width: 34px; }
+  .points.muted li { color: var(--ink-2); }
+
+  /* state list (BMW voice) */
+  .statelist { display: flex; flex-direction: column; gap: 0; }
+  .statelist .s { display: flex; align-items: center; gap: 22px; padding: 16px 0; border-top: 1px solid var(--line-soft); font-size: 28px; color: var(--ink-2); letter-spacing: -0.005em; }
+  .statelist .s:last-child { border-bottom: 1px solid var(--line-soft); }
+  .statelist .s .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--ink-3); flex: none; }
+  .statelist .s .k { font-family: var(--mono); font-size: 24px; color: var(--ink-3); margin-left: auto; }
+  .statelist .s.active { color: var(--ink); }
+  .statelist .s.active .dot { background: var(--accent); box-shadow: 0 0 0 6px rgba(244,242,237,0.12); }
+  .statelist .s.active .k { color: var(--accent); }
+
+  /* in-car voice UI state videos (BMW) */
+  .vstate-intro { font-size: 40px; line-height: 1.24; letter-spacing: -0.02em; font-weight: 400; margin: 0; max-width: 1360px; }
+  .vstate-intro b { font-weight: 500; color: var(--ink); }
+  .states-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 38px; margin-top: 40px; }
+  .statecard { display: flex; flex-direction: column; gap: 16px; }
+  .vslot { width: 100%; height: 350px; border-radius: 14px; border: 1px solid var(--line); background-color: #0e0e10; background-image: repeating-linear-gradient(45deg, rgba(244,242,237,0.05) 0 14px, transparent 14px 28px); display: flex; align-items: center; justify-content: center; text-align: center; padding: 22px; overflow: hidden; }
+  .vslot span { font-family: var(--mono); font-size: 24px; color: var(--ink-3); line-height: 1.6; letter-spacing: 0.08em; }
+  .vslot video { width: 100%; height: 100%; object-fit: contain; display: block; background: #000; }
+  .vslot:has(video) { background-image: none; background-color: #000; }
+  #bmw-vid-listening video { transform: scale(1.28); }
+  .statecard .srow { display: flex; align-items: baseline; gap: 14px; margin-top: 4px; }
+  .statecard .num { font-family: var(--mono); font-size: 24px; color: var(--accent); letter-spacing: 0.1em; }
+  .statecard h3 { font-size: 30px; font-weight: 500; letter-spacing: -0.015em; margin: 0; }
+  .statecard p { font-size: 24px; line-height: 1.42; color: var(--ink-2); margin: 0; }
+
+  /* finale video — click to play + sound toggle */
+  .vidframe { position: relative; width: 100%; border-radius: 16px; overflow: hidden; background: #000; }
+  .vidframe video { width: 100%; height: auto; object-fit: cover; display: block; cursor: pointer; }
+  .vui-play { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 104px; height: 104px; border-radius: 50%; border: 1px solid rgba(244,242,237,0.35); background: rgba(10,10,11,0.5); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: opacity 0.25s ease, transform 0.25s ease; }
+  .vui-play::after { content: ''; width: 0; height: 0; border-style: solid; border-width: 17px 0 17px 28px; border-color: transparent transparent transparent #f4f2ed; margin-left: 7px; }
+  .vui-play:hover { transform: translate(-50%, -50%) scale(1.06); }
+  .vui-play.hidden { opacity: 0; pointer-events: none; }
+  .vui-mute { position: absolute; right: 18px; bottom: 18px; display: flex; align-items: center; gap: 9px; font-family: var(--mono); font-size: 24px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink); background: rgba(10,10,11,0.55); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid var(--line); border-radius: 10px; padding: 11px 17px; cursor: pointer; transition: opacity 0.25s ease; }
+  .vui-mute .ic { width: 10px; height: 10px; border-radius: 50%; background: var(--ink-3); flex: none; }
+  .vui-mute.on .ic { background: var(--accent); }
+
+  /* google case study — claim + diagrams */
+  .claim { font-size: 34px; line-height: 1.3; letter-spacing: -0.015em; color: var(--ink); font-weight: 500; margin: 36px 0 0; max-width: 1320px; }
+  .dcards { display: grid; gap: 36px; margin-top: 36px; }
+  .dcards.c3 { grid-template-columns: repeat(3, 1fr); }
+  .dcards.c2 { grid-template-columns: repeat(2, 1fr); }
+  .dcard { display: flex; flex-direction: column; gap: 16px; }
+  .dcard h3 { font-size: 28px; font-weight: 500; letter-spacing: -0.015em; margin: 0; }
+  .dcard p { font-size: 24px; line-height: 1.4; color: var(--ink-2); margin: 0; }
+  .dbox { position: relative; width: 100%; height: 250px; border: 1px solid var(--line); border-radius: 14px; background: var(--bg-2); overflow: hidden; }
+  .dbox .node { position: absolute; width: 56px; height: 56px; border: 1px solid var(--line); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 24px; color: var(--ink-2); transform: translate(-50%,-50%); }
+  .dbox .node.q { color: var(--accent); border-color: var(--accent); }
+  .dbox.cut { display: flex; align-items: center; justify-content: center; }
+  .cut .frame { width: 30%; height: 58%; border: 1px solid var(--line); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); color: var(--ink-2); font-size: 24px; }
+  .cut .cutline { width: 0; height: 64%; border-left: 2px dashed var(--ink-3); margin: 0 34px; position: relative; }
+  .cut .cutline span { position: absolute; top: -34px; left: 50%; transform: translateX(-50%); font-family: var(--mono); font-size: 24px; color: var(--accent); letter-spacing: 0.08em; }
+  .dbox.surfaces { display: flex; align-items: flex-end; justify-content: center; gap: 18px; padding: 26px; }
+  .surfaces .srf { width: 18%; border: 1px solid var(--line); border-radius: 6px; background: rgba(244,242,237,0.03); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 8px; font-family: var(--mono); font-size: 24px; color: var(--ink-3); }
+  .dbox.wf { display: flex; align-items: center; justify-content: center; gap: 20px; }
+  .wf .wlbl { font-family: var(--mono); font-size: 24px; color: var(--ink-3); }
+  .wf .arr { font-family: var(--mono); font-size: 30px; color: var(--ink-3); }
+  .wf .here { padding: 14px 26px; border: 1px solid var(--accent); border-radius: 999px; font-family: var(--mono); font-size: 24px; color: var(--ink); }
+  .dbox.tf { display: flex; align-items: center; justify-content: center; gap: 22px; }
+  .tf .shape { border: 1px solid var(--accent); background: rgba(244,242,237,0.05); }
+  .tf .circ { width: 48px; height: 48px; border-radius: 50%; }
+  .tf .pill { width: 96px; height: 48px; border-radius: 999px; }
+  .tf .surf { width: 128px; height: 82px; border-radius: 10px; }
+  .tf .arr { color: var(--ink-3); font-family: var(--mono); font-size: 28px; }
+  .dbox.depth { display: flex; flex-direction: column; justify-content: center; gap: 16px; padding: 28px; }
+  .depth .zrow { display: flex; align-items: center; gap: 16px; }
+  .depth .zlab { font-family: var(--mono); font-size: 24px; color: var(--ink-3); width: 66px; flex: none; }
+  .depth .zbar { height: 26px; border: 1px solid var(--line); border-radius: 6px; background: rgba(244,242,237,0.04); }
+  .depth .zrow:last-child .zlab { color: var(--ink); }
+  .depth .zrow:last-child .zbar { border-color: var(--accent); background: rgba(244,242,237,0.09); }
+  .dbox.lat { display: flex; flex-direction: column; justify-content: center; gap: 18px; padding: 32px; }
+  .lat .rowg { display: flex; align-items: center; gap: 18px; }
+  .lat .rl { font-family: var(--mono); font-size: 24px; color: var(--ink-3); width: 150px; }
+  .lat .bar { height: 14px; border-radius: 8px; }
+  .lat .bar.p { width: 44%; background: var(--accent); }
+  .lat .bar.m { width: 84%; background: rgba(244,242,237,0.2); }
+  .lat .ticks { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 24px; color: var(--ink-3); margin-top: 8px; }
+  .dbox.gz { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; }
+  .gz .rowg { display: flex; align-items: center; gap: 22px; }
+  .gz .finger { width: 28px; height: 28px; border-radius: 50%; background: var(--accent); }
+  .gz .obj { width: 92px; height: 60px; border: 1px solid var(--ink-2); border-radius: 10px; }
+  .gz .arr { color: var(--ink-3); font-family: var(--mono); font-size: 28px; }
+  .gz .gl { font-family: var(--mono); font-size: 24px; color: var(--ink-3); }
+
+  /* cognition — AI assistant panel */
+  .aipanel { background: var(--bg-2); border: 1px solid oklch(0.62 0.16 255); border-radius: 16px; padding: 38px; display: flex; flex-direction: column; gap: 22px; box-shadow: 0 0 0 1px oklch(0.62 0.16 255), 0 0 110px -25px oklch(0.62 0.16 255 / 0.85); }
+  .aipanel .ai-h { font-family: var(--mono); font-size: 24px; color: var(--ink-3); letter-spacing: 0.06em; text-transform: uppercase; display: flex; align-items: center; gap: 12px; }
+  .aipanel .ai-h .ai-dot { width: 10px; height: 10px; border-radius: 50%; background: oklch(0.62 0.16 255); flex: none; }
+  .aipanel .ai-lbl { font-family: var(--mono); font-size: 24px; color: var(--ink-3); letter-spacing: 0.04em; }
+  .aipanel .chips { display: flex; flex-direction: column; gap: 12px; }
+  .aipanel .chip { font-size: 25px; color: var(--ink); border: 1px solid var(--line); border-radius: 12px; padding: 16px 20px; background: rgba(244,242,237,0.03); line-height: 1.25; }
+  .aipanel .ai-input { display: flex; align-items: center; gap: 14px; border-top: 1px solid var(--line); padding-top: 22px; font-family: var(--mono); font-size: 24px; color: var(--ink-3); }
+  .aipanel .ai-input .bar2 { width: 2px; height: 26px; background: var(--accent); flex: none; }
+
+  /* section / chapter dividers */
+  .divider { justify-content: center; }
+  .chapter .chap-num { font-family: var(--mono); font-size: 200px; line-height: 0.82; letter-spacing: -0.04em; font-weight: 600; color: rgba(244,242,237,0.12); margin: 0 0 14px; }
+  .div-title { font-size: 116px; line-height: 1.0; letter-spacing: -0.04em; font-weight: 600; margin: 26px 0 0; }
+  .div-sub { font-size: 34px; line-height: 1.4; color: var(--ink-2); max-width: 1120px; margin: 36px 0 0; font-weight: 400; }
+  .case-pills { display: flex; flex-wrap: wrap; gap: 16px; margin: 50px 0 0; }
+  .case-pills .cp { display: inline-flex; align-items: center; gap: 13px; font-size: 30px; letter-spacing: -0.01em; color: var(--ink); border: 1px solid var(--line); border-radius: 999px; padding: 14px 28px; background: rgba(244,242,237,0.03); }
+  .case-pills .cp .d { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); flex: none; }
+  .chap-bubbles { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 46px; }
+  .chap-bubbles span { font-family: var(--mono); font-size: 26px; letter-spacing: 0.02em; color: var(--ink); border: 1px solid var(--line); border-radius: 999px; padding: 14px 26px; background: rgba(244,242,237,0.03); }
+
+  /* layered planes (Google spatial) */
+  .layers { position: relative; height: 500px; width: 100%; }
+  .plane { position: absolute; border: 1px solid var(--line); border-radius: 18px; background: var(--bg-2); display: flex; align-items: flex-end; padding: 24px; font-family: var(--mono); font-size: 24px; color: var(--ink-3); }
+  .plane.p1 { left: 0; top: 0; width: 60%; height: 60%; }
+  .plane.p2 { left: 20%; top: 20%; width: 60%; height: 60%; background: #161618; }
+  .plane.p3 { left: 40%; top: 40%; width: 60%; height: 60%; background: #1b1b1e; border-color: var(--accent); color: var(--ink); box-shadow: 0 30px 80px -30px rgba(0,0,0,0.8); }
+
+  /* arm switch (Intuitive) */
+  .switchviz { display: flex; align-items: stretch; gap: 36px; margin: 8px 0 0; }
+  .arm { flex: 1; height: 260px; border: 1px solid var(--line); border-radius: 16px; background: var(--bg-2); display: flex; flex-direction: column; justify-content: space-between; padding: 26px; }
+  .arm .lbl { font-family: var(--mono); font-size: 24px; letter-spacing: 0.06em; color: var(--ink-3); }
+  .arm .st { font-size: 30px; letter-spacing: -0.01em; color: var(--ink-3); }
+  .arm.active { border-color: var(--accent); background: #1b1b1e; box-shadow: 0 0 0 1px var(--accent), 0 0 90px -20px var(--accent); }
+  .arm.active .lbl { color: var(--accent); }
+  .arm.active .st { color: var(--ink); }
+  .switchviz .ar { align-self: center; font-family: var(--mono); font-size: 30px; color: var(--ink-3); }
+
+  /* result + takeaway */
+  .impacts { list-style: none; margin: 0; padding: 0; }
+  .impacts li { font-size: 30px; line-height: 1.34; color: var(--ink); padding: 20px 0; border-top: 1px solid var(--line-soft); display: flex; gap: 20px; align-items: baseline; }
+  .impacts li:last-child { border-bottom: 1px solid var(--line-soft); }
+  .impacts li i { color: var(--ink-3); font-family: var(--mono); font-size: 24px; font-style: normal; }
+  .takeaway .lbl { font-family: var(--mono); font-size: var(--t-label); letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 26px; }
+  .takeaway .q { font-size: 40px; line-height: 1.26; letter-spacing: -0.02em; font-weight: 500; color: var(--ink); margin: 0; }
+
+  /* LinkedIn motion grid + curve */
+  .motion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; flex: 1; align-items: center; }
+  .purpose { list-style: none; margin: 0; padding: 0; }
+  .purpose li { display: flex; align-items: baseline; gap: 22px; padding: 18px 0; border-top: 1px solid var(--line-soft); font-size: 29px; letter-spacing: -0.01em; color: var(--ink); }
+  .purpose li:last-child { border-bottom: 1px solid var(--line-soft); }
+  .purpose li i { font-family: var(--mono); font-size: 24px; font-style: normal; color: var(--ink-3); min-width: 40px; }
+  .curve-panel { background: var(--bg-2); border: 1px solid var(--line); border-radius: 14px; padding: 48px; }
+  .curve-panel .lbl { font-family: var(--mono); font-size: var(--t-label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
+  .curve-panel svg { width: 100%; height: auto; display: block; margin: 28px 0 24px; }
+  .curve-meta { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 24px; color: var(--ink-2); letter-spacing: 0.02em; }
+  .curve-meta b { color: var(--accent); font-weight: 500; }
+
+  /* light slide */
+  section.light { background: var(--lbg); color: var(--link); }
+  section.light .eyebrow { color: var(--link-2); }
+  section.light .eyebrow .bar { background: var(--link); }
+  section.light .title { color: var(--link); }
+  section.light .foot { border-color: var(--lline); color: var(--link-2); }
+  .pairs { display: grid; grid-template-columns: 1fr 1fr; column-gap: 90px; row-gap: 0; margin-top: auto; margin-bottom: auto; }
+  .pair { display: grid; grid-template-columns: auto 1fr; align-items: baseline; gap: 28px; padding: 26px 0; border-top: 1px solid var(--lline); }
+  .pair .p { font-size: 32px; font-weight: 500; letter-spacing: -0.015em; color: var(--link); }
+  .pair .e { font-size: var(--t-body); line-height: 1.4; color: var(--link-2); }
+  .pair .arrow { color: var(--link); font-family: var(--mono); font-size: 24px; }
+
+  /* motion process timeline */
+  .flow { margin-top: auto; margin-bottom: auto; }
+  .stops { display: grid; grid-template-columns: repeat(5, 1fr); position: relative; column-gap: 22px; }
+  .stops::before { content: ""; position: absolute; top: 8px; left: 4px; right: 4px; height: 2px; background: linear-gradient(90deg, oklch(0.68 0.13 195 / 0.6), oklch(0.62 0.15 255 / 0.6), oklch(0.6 0.16 300 / 0.5)); }
+  .stop { display: flex; flex-direction: column; gap: 26px; padding-right: 18px; }
+  .stop .node { width: 18px; height: 18px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); position: relative; z-index: 1; }
+  .stop .n { font-family: var(--mono); font-size: 24px; letter-spacing: 0.1em; color: var(--ink-3); margin-top: -6px; }
+  .stop .t { font-size: 25px; line-height: 1.26; letter-spacing: -0.01em; color: var(--ink); font-weight: 400; }
+  .stop:nth-child(1) .node { background: oklch(0.7 0.13 190); border-color: oklch(0.7 0.13 190); }
+  .stop:nth-child(2) .node { background: oklch(0.66 0.14 215); border-color: oklch(0.66 0.14 215); }
+  .stop:nth-child(3) .node { background: oklch(0.62 0.16 250); border-color: oklch(0.62 0.16 250); }
+  .stop:nth-child(4) .node { background: oklch(0.6 0.16 280); border-color: oklch(0.6 0.16 280); }
+  .stop:nth-child(5) .node { background: oklch(0.6 0.16 305); border-color: oklch(0.6 0.16 305); }
+
+  /* motion audit — initial → final states + opportunities */
+  .audit-states { display: flex; align-items: center; justify-content: center; gap: 40px; margin-top: 30px; }
+  .audit-states .st { width: 320px; border: 1px solid var(--line); border-radius: 18px; background: var(--bg-2); padding: 26px 26px 30px; }
+  .audit-states .st .lbl { font-family: var(--mono); font-size: 24px; color: var(--ink-3); letter-spacing: 0.05em; text-transform: uppercase; }
+  .audit-states .st .bars { display: flex; flex-direction: column; gap: 13px; margin-top: 22px; }
+  .audit-states .st .bars i { height: 20px; border-radius: 6px; background: rgba(244,242,237,0.12); display: block; }
+  .audit-states .st .bars i.accent { background: oklch(0.62 0.15 250 / 0.6); }
+  .audit-states .gap { flex: 0 0 200px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .audit-states .gap .glabel { font-family: var(--mono); font-size: 24px; color: oklch(0.66 0.14 235); letter-spacing: 0.08em; text-transform: uppercase; }
+  .audit-states .gap .conn { width: 100%; height: 2px; background: linear-gradient(90deg, transparent, oklch(0.66 0.14 235), transparent); position: relative; }
+  .audit-states .gap .conn::after { content: ""; position: absolute; right: 0; top: 50%; width: 12px; height: 12px; border-top: 2px solid oklch(0.66 0.14 235); border-right: 2px solid oklch(0.66 0.14 235); transform: translateY(-50%) rotate(45deg); }
+  .opps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 44px; }
+  .opps .o { border-top: 1px solid var(--line); padding-top: 18px; }
+  .opps .o .num { font-family: var(--mono); font-size: 24px; color: var(--ink-3); }
+  .opps .o h3 { font-size: 27px; font-weight: 500; letter-spacing: -0.01em; margin: 12px 0 9px; }
+  .opps .o p { font-size: 24px; line-height: 1.34; color: var(--ink-2); margin: 0; }
+
+  /* motion audit — initial/final state diagram (ref) */
+  .audit2 { position: relative; width: 1520px; height: 600px; margin: 22px auto 0; }
+  .audit2 .blur { position: absolute; left: 150px; top: -70px; width: 540px; height: 360px; border-radius: 50%; background: radial-gradient(ellipse at center, oklch(0.72 0.16 22 / 0.42), transparent 68%); filter: blur(46px); z-index: 0; pointer-events: none; }
+  .audit2 .abox { position: absolute; border-radius: 22px; background: rgba(244,242,237,0.07); border: 1px solid var(--line); z-index: 1; }
+  .audit2 #audit-initial { border-color: rgba(244,242,237,0.28); box-shadow: 0 0 0 1px rgba(244,242,237,0.10); }
+  .audit2 #audit-final { border-color: rgba(244,242,237,0.24); box-shadow: 0 0 0 1px rgba(244,242,237,0.08); }
+  .audit2 svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; overflow: visible; }
+  .audit2 .aconn { stroke: url(#auditGrad); stroke-width: 2.5; fill: none; }
+  .audit2 .ann { position: absolute; z-index: 3; width: 250px; }
+  .audit2 .ann h4 { font-size: 30px; font-weight: 500; letter-spacing: -0.01em; margin: 0 0 12px; color: var(--ink); line-height: 1.08; }
+  .audit2 .ann.c-blue h4 { color: oklch(0.72 0.06 235); }
+  .audit2 .ann.c-violet h4 { color: oklch(0.7 0.06 300); }
+  .audit2 .ann p { font-size: 24px; line-height: 1.36; color: var(--ink-3); margin: 0; }
+  .audit2 .ann p b { color: var(--ink); font-weight: 500; }
+  .audit2 .slabel { position: absolute; z-index: 3; font-family: var(--mono); font-size: 24px; color: var(--ink-3); text-align: center; }
+
+  /* sleek white desktop monitor mockup */
+  .monitor { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 0; }
+  .monitor .screen { background: linear-gradient(180deg, #fdfdfd, #f0f1f3); border-radius: 22px; padding: 18px; box-shadow: 0 40px 90px -30px rgba(0,0,0,0.6), 0 2px 0 rgba(255,255,255,0.9) inset, 0 0 0 1px rgba(0,0,0,0.06); }
+  .monitor .screen .glass { border-radius: 8px; overflow: hidden; background: #000; }
+  .monitor .screen .glass video { display: block; }
+  .monitor .neck { width: 120px; height: 46px; background: linear-gradient(180deg, #eceef1, #d7dade); clip-path: polygon(28% 0, 72% 0, 88% 100%, 12% 100%); }
+  .monitor .base { width: 320px; height: 16px; border-radius: 0 0 12px 12px; background: linear-gradient(180deg, #e3e6ea, #c7cbd1); box-shadow: 0 18px 40px -18px rgba(0,0,0,0.5); }
+
+  /* handoff spec sheet */
+  .handoff { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 90px; flex: 1; align-items: center; }
+  .handoff .stmt { font-size: 40px; line-height: 1.26; letter-spacing: -0.02em; font-weight: 400; margin: 26px 0 0; }
+  .handoff .note { font-size: var(--t-body); color: var(--ink-2); line-height: 1.5; margin: 30px 0 0; }
+  .spec { font-family: var(--mono); }
+  .spec .row { display: flex; justify-content: space-between; gap: 30px; padding: 16px 2px; border-bottom: 1px solid var(--line-soft); font-size: 24px; }
+  .spec .row:first-child { border-top: 1px solid var(--line); }
+  .spec .row .k { color: var(--ink); letter-spacing: 0.02em; }
+  .spec .row .v { color: var(--ink-3); letter-spacing: 0.04em; text-align: right; }
+
+  /* timing specification — horizontal bar timeline */
+  .timingspec { border: 1px solid var(--line); border-radius: 16px; background: var(--bg-2); padding: 30px 34px 28px; }
+  .timingspec .ts-head { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; margin-bottom: 8px; }
+  .timingspec .ts-title { font-family: var(--mono); font-size: 24px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); }
+  .timingspec .ts-ease { font-family: var(--mono); font-size: 24px; color: var(--accent); letter-spacing: 0.02em; }
+  .ts-row { display: grid; grid-template-columns: 168px 150px 1fr 96px; align-items: center; gap: 22px; padding: 22px 0; border-top: 1px solid var(--line-soft); }
+  .ts-row:first-of-type { border-top: 1px solid var(--line); }
+  .ts-prop { font-family: var(--mono); font-size: 25px; color: var(--ink); letter-spacing: 0.01em; }
+  .ts-val { font-family: var(--mono); font-size: 24px; color: var(--ink-3); }
+  .ts-track { position: relative; height: 36px; border-radius: 8px; background-color: rgba(244,242,237,0.05); background-image: repeating-linear-gradient(90deg, rgba(244,242,237,0.10) 0 1.5px, transparent 1.5px 25%); }
+  .ts-bar { position: absolute; top: 0; bottom: 0; border-radius: 8px; }
+  .ts-bar.up { background: linear-gradient(90deg, rgba(244,242,237,0.22), var(--accent)); }
+  .ts-bar.down { background: linear-gradient(90deg, var(--accent), rgba(244,242,237,0.22)); }
+  .ts-bar.c1 { background: linear-gradient(90deg, oklch(0.82 0.13 195 / 0.28), oklch(0.82 0.13 195)); }
+  .ts-bar.c2 { background: linear-gradient(90deg, oklch(0.82 0.13 70), oklch(0.82 0.13 70 / 0.28)); }
+  .ts-bar.c3 { background: linear-gradient(90deg, oklch(0.82 0.13 305 / 0.28), oklch(0.82 0.13 305)); }
+  .ts-dur.c1 { color: oklch(0.82 0.13 195); }
+  .ts-dur.c2 { color: oklch(0.82 0.13 70); }
+  .ts-dur.c3 { color: oklch(0.82 0.13 305); }
+  .ts-dur { font-family: var(--mono); font-size: 24px; color: var(--ink); text-align: right; }
+  .ts-axis-row { display: grid; grid-template-columns: 168px 150px 1fr 96px; gap: 22px; margin-top: 4px; }
+  .ts-ticks { grid-column: 3; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 24px; color: var(--ink-3); }
+
+  /* UI-still split layouts (slides 5 & 6) */
+  .ui-split { display: grid; gap: 60px; flex: 1; align-items: center; margin-top: 4px; }
+  .ui-split-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; row-gap: 18px; margin: 0; }
+  .ui-split-grid .cell { padding-top: 16px; }
+  .ui-split-grid .cell h3 { margin: 9px 0 8px; }
+  .ui-split-grid .cell p { font-size: 24px; line-height: 1.36; }
+  .ui-shot { width: 100%; height: 600px; object-fit: cover; object-position: top; border: 1px solid var(--line); border-radius: 16px; display: block; background: #000; }
+
+  /* phone-screen showcase (selected work) */
+  .phones-row { display: flex; align-items: center; justify-content: center; gap: 22px; height: 100%; }
+  .phones-row img { height: 86%; max-height: 680px; width: auto; border-radius: 30px; box-shadow: 0 40px 90px -30px rgba(0,0,0,0.5); display: block; background: #fff; }
+  .phones-row img.raise { transform: translateY(-26px); }
+  .phones-row img.lower { transform: translateY(22px); }
+
+  /* phone-screen strip — show-all designs */
+  .phones-strip { display: flex; flex-wrap: wrap; align-items: center; align-content: center; justify-content: center; gap: 20px; flex: 1; min-height: 0; margin-top: 38px; }
+  .phones-strip img { width: auto; border-radius: 22px; box-shadow: 0 34px 78px -30px rgba(0,0,0,0.45); background: #fff; display: block; }
+  .phones-strip.sharp img { border-radius: 0; }
+
+  /* UI collage cluster (several stills, staggered) */
+  .ui-cluster { position: relative; width: 100%; height: 700px; }
+  .ui-card { position: absolute; height: 290px; width: auto; border-radius: 14px; background: transparent; box-shadow: 0 44px 90px -34px rgba(0,0,0,0.78); display: block; }
+  section.light .ui-card { box-shadow: 0 34px 80px -30px rgba(20,20,15,0.5); }
+  .ui-card.a { top: 0; left: 0; transform: rotate(-3deg); z-index: 1; }
+  .ui-card.b { top: 178px; left: 30%; transform: rotate(2.5deg); z-index: 2; }
+  .ui-card.c { top: 356px; left: 6%; transform: rotate(-1.5deg); z-index: 3; }
+
+  /* UI wall — non-overlapping, bleeds off top & bottom, slow auto-scroll */
+  .ui-wall { position: absolute; top: 0; bottom: 0; right: 0; width: 54%; overflow: hidden; z-index: 0; display: flex; align-items: flex-start; gap: 22px; padding-left: 26px; }
+  .ui-wall .col { flex: 1; min-width: 0; }
+  .col-track { display: flex; flex-direction: column; gap: 0; animation: ui-scroll 34s linear infinite; will-change: transform; }
+  .col-track img { margin-bottom: 22px; }
+  .ui-wall .col.c1 .col-track { animation-duration: 34s; animation-delay: -4s; }
+  .ui-wall .col.c2 .col-track { animation-duration: 44s; animation-delay: -22s; }
+  @keyframes ui-scroll { from { transform: translate3d(0,0,0); } to { transform: translate3d(0,-50%,0); } }
+  @media (prefers-reduced-motion: reduce) { .col-track { animation: none; transform: translateY(-14%); } }
+  .ui-wall img { width: 100%; height: auto; border-radius: 14px; box-shadow: 0 40px 80px -34px rgba(0,0,0,0.72); display: block; }
+  section.light .ui-wall img { box-shadow: 0 30px 70px -30px rgba(20,20,15,0.42); }
+  .ui-side { position: relative; z-index: 2; max-width: 40%; }
+  .ui-side.center { margin-top: auto; margin-bottom: auto; }
+  .ui-list { list-style: none; margin: 36px 0 0; padding: 0; max-width: 600px; }
+  .ui-list li { padding: 0 0 26px; }
+  .ui-list li:last-child { padding-bottom: 0; }
+  .ui-list .k { font-size: 31px; letter-spacing: -0.015em; color: var(--ink); display: flex; align-items: baseline; gap: 18px; font-weight: 400; }
+  .ui-list .k .n { font-family: var(--mono); font-size: 24px; color: var(--accent); letter-spacing: 0.04em; }
+  .ui-list .d { font-size: 24px; line-height: 1.36; color: var(--ink-3); margin-top: 7px; display: block; max-width: 540px; }
+
+  /* case-study corner logo */
+  .case-logo-tr { position: absolute; top: 52px; right: 100px; z-index: 6; width: auto; display: block; }
+
+  /* motion divider easing curve — large grey field */
+  .has-curve > *:not(.motion-curve) { position: relative; z-index: 1; }
+  .has-curve .chap-num { z-index: 0; }
+  .motion-curve { position: absolute; right: 0; top: 0; bottom: 0; left: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+  .motion-curve svg { position: absolute; right: -120px; top: 50%; transform: translateY(-50%); width: 1640px; height: 1440px; display: block; overflow: visible; }
+  .mc-grid { stroke: rgba(125,123,117,0.12); stroke-width: 1; }
+  .mc-fan { fill: none; stroke: rgba(125,123,117,0.26); stroke-width: 1.6; }
+  .mc-fan2 { fill: none; stroke: rgba(125,123,117,0.16); stroke-width: 1.4; }
+  .mc-curve { fill: none; stroke: rgba(125,123,117,0.34); stroke-width: 2; stroke-linecap: round; }
+  .mc-glow { fill: none; stroke: none; }
+  .mc-handle { stroke: rgba(125,123,117,0.42); stroke-width: 1.5; stroke-dasharray: 5 7; }
+  .mc-dot { fill: rgba(112,110,104,0.62); }
+  .mc-cp { fill: var(--bg-light, #efece5); stroke: rgba(112,110,104,0.5); stroke-width: 2; }
+  .mc-tick { fill: rgba(112,110,104,0.55); }
+  .mc-lbl { fill: rgba(112,110,104,0.5); font-family: var(--mono); font-size: 24px; letter-spacing: 0.04em; }
+  @media (prefers-reduced-motion: no-preference) {
+    [data-deck-active] .mc-curve, [data-deck-active] .mc-glow { stroke-dasharray: 1400; stroke-dashoffset: 1400; animation: mc-draw 2.4s cubic-bezier(.2,.8,.2,1) forwards; }
+    [data-deck-active] .mc-travel { animation: mc-move 5.5s cubic-bezier(.2,.8,.2,1) infinite; }
+  }
+  @keyframes mc-draw { to { stroke-dashoffset: 0; } }
+  @keyframes mc-move { 0% { offset-distance: 0%; opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+
+  /* positioning */
+  .position { display: grid; grid-template-columns: 1fr 0.92fr; gap: 90px; flex: 1; min-height: 0; align-items: center; }
+  .position .stmt { font-size: 54px; line-height: 1.16; letter-spacing: -0.028em; font-weight: 500; margin: 28px 0 0; }
+  .combine { list-style: none; margin: 0; padding: 0; }
+  .combine li { display: flex; align-items: baseline; gap: 22px; padding: 21px 0; border-top: 1px solid var(--line-soft); font-size: 32px; letter-spacing: -0.01em; color: var(--ink); font-weight: 400; }
+  .combine li:last-child { border-bottom: 1px solid var(--line-soft); }
+  .combine li i { font-family: var(--mono); font-size: 24px; font-style: normal; color: var(--ink-3); min-width: 40px; }
+
+  /* closing */
+  .closing { justify-content: center; }
+  .closing .big { font-size: 76px; line-height: 1.1; letter-spacing: -0.03em; font-weight: 600; max-width: 1520px; margin: 0; }
+  .closing .sub { font-size: 32px; line-height: 1.5; color: var(--ink-2); max-width: 1040px; margin: 50px 0 0; }
+  .closing .sign { margin-top: 84px; display: flex; align-items: center; gap: 22px; font-family: var(--mono); font-size: var(--t-label); letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); }
+  .closing .sign .bar { width: 34px; height: 2px; background: var(--accent); }
+  .closing .sign b { color: var(--ink); font-weight: 500; }
+  section.light.closing { background: var(--lbg); color: var(--link); }
+  section.light.closing .big { color: var(--link); }
+  section.light.closing .sub { color: var(--link-2); }
+  section.light.closing .sign { color: var(--link-2); }
+  section.light.closing .sign b { color: var(--link); }
+  section.light.closing .sign .bar { background: var(--link); }
+  section.light.chapter .chap-num { color: rgba(22,21,15,0.12); }
+  section.light .div-sub { color: var(--link-2); }
+  section.light .case-pills .cp { color: var(--link); border-color: var(--lline); background: rgba(22,21,15,0.03); }
+  section.light .case-pills .cp .d { background: var(--link); }
+
+  /* entrance animation */
+  @media (prefers-reduced-motion: no-preference) {
+    [data-deck-active] .anim { animation: rise 0.66s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+    [data-deck-active] .anim-2 { animation: rise 0.66s cubic-bezier(0.2, 0.7, 0.2, 1) 0.09s both; }
+    [data-deck-active] .anim-3 { animation: rise 0.66s cubic-bezier(0.2, 0.7, 0.2, 1) 0.18s both; }
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+
+  /* ============ v3 — visual placeholders & captions ============ */
+  .cap { font-family: var(--mono); font-size: 24px; color: var(--ink-3); letter-spacing: 0.01em; line-height: 1.42; margin: 16px 0 0; }
+  .cap b { color: var(--ink-2); font-weight: 500; }
+  section.light .cap { color: var(--link-2); }
+  section.light .cap b { color: var(--link); }
+
+  .art { display: flex; flex-direction: column; gap: 16px; }
+  .art image-slot { width: 100%; flex: 1; min-height: 0; }
+
+  /* cover split */
+  .cover-reel { position: absolute; top: 0; right: 0; bottom: 0; width: 38%; overflow: hidden; z-index: 0; }
+  .cover-reel video { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.08); }
+  .cover-copy { position: relative; z-index: 1; max-width: 980px; }
+
+  /* about with portrait */
+  .about-v3 { display: grid; grid-template-columns: 0.62fr 1.38fr; gap: 84px; flex: 1; align-items: center; }
+  .about-v3 .portrait { height: 740px; }
+  .about-v3 .stmt { font-size: 40px; line-height: 1.24; letter-spacing: -0.02em; font-weight: 400; margin: 0 0 32px; }
+  .about-v3 .stmt em { font-style: normal; color: var(--ink); }
+
+  /* image-led split (problem / opener context) */
+  .imgsplit { display: grid; grid-template-columns: 1.02fr 0.98fr; gap: 80px; flex: 1; align-items: center; }
+  .imgsplit.rev { grid-template-columns: 0.98fr 1.02fr; }
+  .imgsplit .art { height: 660px; }
+
+  /* cognition case study — bigger designs, smaller text */
+  .cog .imgsplit { grid-template-columns: 0.8fr 1.2fr; gap: 64px; }
+  .cog .imgsplit.rev { grid-template-columns: 1.2fr 0.8fr; }
+  .cog .imgsplit .art { height: 780px; }
+  .cog .big { font-size: 34px; line-height: 1.32; }
+  .cog .body { font-size: 26px; line-height: 1.5; }
+  .cog .points { font-size: 26px; }
+  .cog .points li { margin-top: 14px; }
+  .cog .ba image-slot { height: 540px; }
+  .cog .result-grid { grid-template-columns: 1.18fr 0.82fr; }
+  .cog .result-grid .art { height: 600px; }
+  .cog .impacts { font-size: 26px; }
+  .cog .impacts li { margin-top: 9px; }
+  .cog .stack { gap: 24px; }
+  .cog .takeaway .lbl { margin-bottom: 16px; }
+  .cog .takeaway .q { font-size: 34px; }
+
+  /* cognition — glassmorphism stylization (ref: frosted glass + neon edge glow) */
+  .cog .art image-slot,
+  .cog .ba image-slot {
+    border-radius: 18px;
+    border: 1px solid rgba(180,200,255,0.16);
+    box-shadow:
+      0 0 0 1px rgba(140,170,255,0.10),
+      0 26px 70px -18px rgba(50,100,255,0.42),
+      0 14px 50px -16px rgba(165,90,255,0.38),
+      inset 0 1px 0 rgba(255,255,255,0.22);
+    overflow: hidden;
+  }
+  .cog .aipanel {
+    position: relative;
+    background: linear-gradient(140deg, rgba(150,180,255,0.12), rgba(120,90,210,0.06) 60%, rgba(255,255,255,0.02));
+    -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+    border: 1px solid rgba(180,200,255,0.20);
+    box-shadow:
+      0 0 0 1px rgba(140,170,255,0.12),
+      0 30px 80px -20px rgba(50,100,255,0.5),
+      0 16px 60px -18px rgba(165,90,255,0.45),
+      inset 0 1px 0 rgba(255,255,255,0.30);
+    overflow: hidden;
+  }
+  .cog .aipanel::before {
+    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 44%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.16), transparent);
+    pointer-events: none;
+  }
+  .cog .aipanel > * { position: relative; z-index: 1; }
+  .cog .aipanel .chip {
+    background: linear-gradient(140deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02));
+    border: 1px solid rgba(180,200,255,0.18);
+    box-shadow: 0 8px 26px -12px rgba(50,100,255,0.5), inset 0 1px 0 rgba(255,255,255,0.22);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  }
+  .cog .aipanel .chip:first-child {
+    border-color: rgba(120,170,255,0.55);
+    box-shadow: 0 0 30px -6px rgba(70,130,255,0.65), inset 0 1px 0 rgba(255,255,255,0.3);
+  }
+  .cog .takeaway {
+    position: relative;
+    background: linear-gradient(140deg, rgba(150,180,255,0.10), rgba(120,90,210,0.05));
+    -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+    border: 1px solid rgba(180,200,255,0.18);
+    border-radius: 18px; padding: 24px 30px;
+    box-shadow: 0 24px 64px -22px rgba(50,100,255,0.45), 0 12px 44px -18px rgba(165,90,255,0.4), inset 0 1px 0 rgba(255,255,255,0.24);
+  }
+
+  /* result with image */
+  .result-grid { display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 80px; flex: 1; align-items: center; }
+  .result-grid .art { height: 620px; }
+  .result-grid .stack { display: flex; flex-direction: column; gap: 44px; }
+
+  /* before / after */
+  .ba { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .ba .col { display: flex; flex-direction: column; gap: 14px; }
+  .ba .tag { font-family: var(--mono); font-size: 24px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
+  .ba image-slot { width: 100%; height: 470px; }
+  section.light .ba .tag { color: var(--link-2); }
+
+  /* full-bleed background image + scrim */
+  .bleed { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+  .bleed image-slot { width: 100%; height: 100%; }
+  .scrim { position: absolute; inset: 0; z-index: 1; }
+  .scrim.left { background: linear-gradient(90deg, rgba(10,10,11,0.97) 0%, rgba(10,10,11,0.86) 42%, rgba(10,10,11,0.42) 100%); }
+  .scrim.center { background: linear-gradient(180deg, rgba(10,10,11,0.74) 0%, rgba(10,10,11,0.62) 40%, rgba(10,10,11,0.88) 100%); }
+  .layer { position: relative; z-index: 2; display: flex; flex-direction: column; flex: 1; min-height: 0; }
+  .layer.mid { justify-content: center; }
+
+  /* small inline visual (e.g. voice orb) */
+  .mini { height: 220px; margin-top: 30px; }
+  .mini image-slot { width: 100%; height: 100%; }
+
+  /* showcase (selected work + reel) */
+  .bleed img, .bleed video { width: 100%; height: 100%; display: block; }
+  .eyebrow.chip { align-self: flex-start; background: rgba(10,10,11,0.62); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); padding: 13px 20px; border-radius: 999px; }
+  .reel-play { position: absolute; inset: 0; margin: auto; width: 116px; height: 116px; border-radius: 50%; border: 1px solid rgba(244,242,237,0.55); background: rgba(10,10,11,0.42); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 4; transition: opacity .3s ease, transform .2s ease; }
+  .reel-play:hover { transform: scale(1.06); background: rgba(10,10,11,0.6); }
+  .reel-play .tri { width: 0; height: 0; border-left: 30px solid var(--ink); border-top: 19px solid transparent; border-bottom: 19px solid transparent; margin-left: 7px; }
+  .reel-play.hidden { opacity: 0; pointer-events: none; }
+
+  /* reel controls — sound + scrub */
+  .reel-ctrls { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: 18px; padding: 18px 22px; background: linear-gradient(0deg, rgba(8,8,9,0.78), transparent); opacity: 0; transition: opacity 0.25s ease; }
+  .reel-frame:hover .reel-ctrls, .reel-ctrls.show { opacity: 1; }
+  .reel-btn { flex: none; width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(244,242,237,0.4); background: rgba(10,10,11,0.5); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); color: var(--ink); display: flex; align-items: center; justify-content: center; cursor: pointer; font-family: var(--mono); font-size: 24px; transition: background 0.2s ease, transform 0.15s ease; }
+  .reel-btn:hover { background: rgba(10,10,11,0.7); transform: scale(1.05); }
+  .reel-time { font-family: var(--mono); font-size: 24px; color: var(--ink-2); flex: none; min-width: 130px; }
+  .reel-seek { flex: 1; -webkit-appearance: none; appearance: none; height: 6px; border-radius: 999px; background: rgba(244,242,237,0.22); cursor: pointer; outline: none; }
+  .reel-seek::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--ink); border: none; box-shadow: 0 1px 5px rgba(0,0,0,0.5); }
+  .reel-seek::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: var(--ink); border: none; }
+
+  /* selected work gallery */
+  section.gallery { padding: 0 !important; }
+  .gallery .g-img { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #0a0a0b; }
+  .gallery .g-img img, .gallery .g-img video { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; }
+  .gallery .g-cap { position: absolute; left: 40px; bottom: 40px; z-index: 2; max-width: 470px; background: rgba(10,10,11,0.62); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; }
+  .gallery .g-eyebrow { font-family: var(--mono); font-size: 24px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); display: flex; align-items: center; gap: 14px; }
+  .gallery .g-eyebrow .bar { width: 28px; height: 2px; background: var(--accent); display: inline-block; }
+  .gallery .g-desc { font-size: 26px; line-height: 1.4; color: var(--ink-2); margin-top: 12px; }
+</style>
+</head>
+<body>
+
+<deck-stage width="1920" height="1080" data-om-id="81245080:8" style="--deck-rail-w: 188px; --accent: #f4f2ed; --t-title: 68px;">
+
+  <section class="cover" data-screen-label="01 Cover" data-om-id="81245080:9" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-deck-slide="0">
+    <div class="cover-reel" data-om-id="81245080:10">
+      <video src="uploads/studio-portrait.mp4" data-autoplay="" autoplay="" muted="" loop="" playsinline="" preload="auto" data-om-id="81245080:11"></video>
+    </div>
+    <div class="cover-copy" data-om-id="81245080:12">
+      <div class="eyebrow anim" data-om-id="81245080:13"><span class="bar" data-om-id="81245080:14"></span><span data-om-id="81245080:15">Product Designer</span></div>
+      <h1 class="name anim" data-om-id="81245080:16">Ali Said</h1>
+      <p class="roles anim-2" data-om-id="81245080:17">Product Design&nbsp;&nbsp;/&nbsp;&nbsp;Visual&nbsp;&nbsp;/&nbsp;&nbsp;VFX&nbsp;&nbsp;/&nbsp;&nbsp;Motion</p>
+      <p class="pos anim-3" data-om-id="81245080:18">I design premium product experiences by <em data-om-id="8b8f0336:19">leveraging</em> visual craft, UX principles, and motion systems.</p>
+      <div class="scrubber anim-3" data-om-id="81245080:19"></div>
+    </div>
+  </section>
+
+  <section data-screen-label="02 About" data-om-id="e8884605:20" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-deck-slide="1">
+    <div class="eyebrow anim" data-om-id="e8884605:21"><span class="bar" data-om-id="e8884605:22"></span><span data-om-id="e8884605:23">About</span></div>
+    <div style="margin-top:auto; margin-bottom:auto;" data-om-id="e8884605:24">
+      <p class="anim-2" style="font-size:50px; line-height:1.24; letter-spacing:-0.02em; font-weight:400; margin:0; max-width:1380px;" data-om-id="e8884605:25">Product design / vfx background.</p>
+      <p class="body anim-2" style="margin-top: 28px; max-width: 1180px; height: 166px; font-size: 27px; line-height: 1.7" data-om-id="8b8f0336:27">I started in visual effects for motion pictures, then carried that frame-level craft into product, brand, and ad work — 15+ years on, including two years in-house at BMW and as design partner to teams shipping at scale, working shoulder-to-shoulder with engineers and product to protect the intent all the way to launch.</p>
+      <p class="anim-2" style="font-size:38px; line-height:1.3; letter-spacing:-0.015em; font-weight:400; margin:36px 0 0; max-width:1280px; color:var(--ink-2);" data-om-id="8b8f0336:28"><span style="color:var(--ink); font-weight: 400" data-om-id="8b8f0336:29"></span> <span style="color: var(--accent); font-weight: 300" data-om-id="8b8f0336:30"></span></p>
+      <div class="teams-label anim-3" style="margin: 72px 0px 22px;" data-om-id="e8884605:27">Selected clients</div>
+      <div class="tags anim-3" style="margin-top:20px;" data-om-id="e8884605:28"><span data-om-id="e8884605:29">BMW</span><span data-om-id="e8884605:30">Google</span><span data-om-id="e8884605:31">LinkedIn</span><span data-om-id="e8884605:32">Intuit</span><span data-om-id="e8884605:33">Dropbox</span><span data-om-id="e8884605:34">Walgreens</span><span data-om-id="e8884605:35">Intuitive Surgical</span><span data-om-id="e8884605:36">Legend3D</span></div>
+      <div class="teams-label anim-3" style="margin: 40px 0px 22px;">Filmography</div>
+      <div class="tags anim-3" style="margin-top:20px;"><span>Transformers 3</span><span>Smurfs</span><span>Conan</span><span>Top Gun</span><span>Priest</span></div>
+    </div>
+    <div class="foot" data-om-id="e8884605:37"><span class="l" data-om-id="e8884605:38">Ali Said</span><span class="r" data-om-id="e8884605:39">Intro</span></div>
+  </section>
+
+  <section class="divider chapter light" data-screen-label="03 UI Design Process" data-om-id="80925038:57" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-deck-slide="2">
+    <div class="ui-side center" data-om-id="8b8f0336:45">
+      <div class="chap-num anim" data-om-id="8b8f0336:46">01</div>
+      <div class="eyebrow anim-2" data-om-id="8b8f0336:47"><span class="bar" data-om-id="8b8f0336:48"></span><span data-om-id="8b8f0336:49">The Approach</span></div>
+      <h2 class="div-title anim-2" style="font-size:74px;" data-om-id="8b8f0336:50">UI Design</h2>
+      <p class="div-sub anim-3" data-om-id="8b8f0336:51">How I turn brand context and UX laws into clear, premium product interfaces.</p>
+    </div>
+    <div class="ui-wall anim-3" data-om-id="8b8f0336:52">
+      <div class="col c1" data-om-id="8b8f0336:53"><div class="col-track" data-om-id="8b8f0336:54">
+        <img src="visuals/ui-fintech.png" alt="UI — fintech dashboard" data-om-id="8b8f0336:55">
+        <img src="visuals/ui-bugatti.png" alt="UI — automotive product site" data-om-id="8b8f0336:56">
+        <img src="visuals/ui-vasdfrns.png" alt="UI — music app" data-om-id="8b8f0336:57">
+        <img src="visuals/ui-medusa.png" alt="UI — album art concept" data-om-id="8b8f0336:58">
+        <img src="visuals/ui-fintech.png" alt="" aria-hidden="true" data-om-id="8b8f0336:59">
+        <img src="visuals/ui-bugatti.png" alt="" aria-hidden="true" data-om-id="8b8f0336:60">
+        <img src="visuals/ui-vasdfrns.png" alt="" aria-hidden="true" data-om-id="8b8f0336:61">
+        <img src="visuals/ui-medusa.png" alt="" aria-hidden="true" data-om-id="8b8f0336:62">
+      </div></div>
+      <div class="col c2" data-om-id="8b8f0336:63"><div class="col-track" data-om-id="8b8f0336:64">
+        <img src="visuals/ui-dior.png" alt="UI — fashion editorial" data-om-id="8b8f0336:65">
+        <img src="visuals/ui-shop.png" alt="UI — minimal product page" data-om-id="8b8f0336:66">
+        <img src="visuals/ui-balenciaga.png" alt="UI — fashion site" data-om-id="8b8f0336:67">
+        <img src="visuals/ui-dior.png" alt="" aria-hidden="true" data-om-id="8b8f0336:68">
+        <img src="visuals/ui-shop.png" alt="" aria-hidden="true" data-om-id="8b8f0336:69">
+        <img src="visuals/ui-balenciaga.png" alt="" aria-hidden="true" data-om-id="8b8f0336:70">
+      </div></div>
+    </div>
+  </section>
+
+  <section data-screen-label="04 The Process" data-om-id="81245080:76" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-deck-slide="3">
+    <div class="ui-side center" style="margin-left:90px; max-width:600px;" data-om-id="8b8f0336:72">
+      <div class="eyebrow anim" data-om-id="81245080:78"><span class="bar" data-om-id="81245080:79"></span><span data-om-id="81245080:80">Approach — Product Design</span></div>
+      <ul class="ui-list" style="margin-top:28px;" data-om-id="8b8f0336:76">
+        <li data-om-id="8b8f0336:77"><span class="k" data-om-id="8b8f0336:78"><span class="n" data-om-id="8b8f0336:79">01</span>Immerse</span><span class="d" data-om-id="8b8f0336:80">Brand, product, users, and the existing system.</span></li>
+        <li data-om-id="8b8f0336:81"><span class="k" data-om-id="8b8f0336:82"><span class="n" data-om-id="8b8f0336:83">02</span>Diagnose</span><span class="d" data-om-id="8b8f0336:84">Friction, visual inconsistency, hierarchy gaps.</span></li>
+        <li data-om-id="8b8f0336:85"><span class="k" data-om-id="8b8f0336:86"><span class="n" data-om-id="8b8f0336:87">03</span>Reference</span><span class="d" data-om-id="8b8f0336:88">UX laws and behavioral design principles.</span></li>
+        <li data-om-id="8b8f0336:89"><span class="k" data-om-id="8b8f0336:90"><span class="n" data-om-id="8b8f0336:91">04</span>Design</span><span class="d" data-om-id="8b8f0336:92">Beautiful solutions that aid comprehension.</span></li>
+        <li data-om-id="8b8f0336:93"><span class="k" data-om-id="8b8f0336:94"><span class="n" data-om-id="8b8f0336:95">05</span>Ship</span><span class="d" data-om-id="8b8f0336:96">Partner with engineers to preserve the intent.</span></li>
+      </ul>
+    </div>
+    <div class="ui-wall anim-3" data-om-id="8b8f0336:97">
+      <div class="col c1" data-om-id="8b8f0336:98"><div class="col-track" data-om-id="8b8f0336:99">
+        <img src="visuals/ui-taxi.png" alt="UI — ride-hailing map" data-om-id="8b8f0336:100">
+        <img src="visuals/ui-nike.png" alt="UI — product showcase" data-om-id="8b8f0336:101">
+        <img src="visuals/ui-weaponface.png" alt="UI — editorial concept" data-om-id="8b8f0336:102">
+        <img src="visuals/ui-taxi.png" alt="" aria-hidden="true" data-om-id="8b8f0336:103">
+        <img src="visuals/ui-nike.png" alt="" aria-hidden="true" data-om-id="8b8f0336:104">
+        <img src="visuals/ui-weaponface.png" alt="" aria-hidden="true" data-om-id="8b8f0336:105">
+      </div></div>
+      <div class="col c2" data-om-id="8b8f0336:106"><div class="col-track" data-om-id="8b8f0336:107">
+        <img src="visuals/ui-moonplayer.png" alt="UI — music player" data-om-id="8b8f0336:108">
+        <img src="visuals/ui-visual.png" alt="UI — editorial campaign" data-om-id="8b8f0336:109">
+        <img src="visuals/ui-phones.webp" alt="UI — mobile app concept" data-om-id="8b8f0336:110">
+        <img src="visuals/ui-moonplayer.png" alt="" aria-hidden="true" data-om-id="8b8f0336:111">
+        <img src="visuals/ui-visual.png" alt="" aria-hidden="true" data-om-id="8b8f0336:112">
+        <img src="visuals/ui-phones.webp" alt="" aria-hidden="true" data-om-id="8b8f0336:113">
+      </div></div>
+    </div>
+    <div class="foot" data-om-id="81245080:108"><span class="l" data-om-id="81245080:109">Ali Said</span><span class="r" data-om-id="81245080:110">Approach</span></div>
+  </section>
+
+  <section data-screen-label="05 UX Laws" data-om-id="81245080:111" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-deck-slide="4">
+    <div class="ui-side center" style="margin-left:90px; max-width:600px;" data-om-id="8b8f0336:118">
+      <div class="eyebrow anim" data-om-id="81245080:113"><span class="bar" data-om-id="81245080:114"></span><span data-om-id="81245080:115">Approach — UX Laws</span></div>
+      <ul class="ui-list" style="margin-top:28px;" data-om-id="8b8f0336:122">
+        <li data-om-id="8b8f0336:123"><span class="k" data-om-id="8b8f0336:124">Hick’s Law</span><span class="d" data-om-id="8b8f0336:125">Fewer choices through hierarchy and focus.</span></li>
+        <li data-om-id="8b8f0336:126"><span class="k" data-om-id="8b8f0336:127">Fitts’s Law</span><span class="d" data-om-id="8b8f0336:128">Key actions larger, closer, easier to hit.</span></li>
+        <li data-om-id="8b8f0336:129"><span class="k" data-om-id="8b8f0336:130">Proximity Law</span><span class="d" data-om-id="8b8f0336:131">Group related information so structure reads.</span></li>
+        <li data-om-id="8b8f0336:132"><span class="k" data-om-id="8b8f0336:133">Jakob’s Law</span><span class="d" data-om-id="8b8f0336:134">Familiar patterns when they speed users up.</span></li>
+        <li data-om-id="8b8f0336:135"><span class="k" data-om-id="8b8f0336:136">Aesthetic–Usability</span><span class="d" data-om-id="8b8f0336:137">Visual polish reads as trust and ease.</span></li>
+        <li data-om-id="8b8f0336:138"><span class="k" data-om-id="8b8f0336:139">Miller’s Law</span><span class="d" data-om-id="8b8f0336:140">Chunk and reveal to lower cognitive load.</span></li>
+      </ul>
+    </div>
+    <div class="ui-wall anim-3" data-om-id="8b8f0336:141">
+      <div class="col c1" data-om-id="8b8f0336:142"><div class="col-track" data-om-id="8b8f0336:143">
+        <img src="visuals/ui-appointment.webp" alt="UI — appointment scheduling" data-om-id="8b8f0336:144">
+        <img src="visuals/ui-facephones.webp" alt="UI — mobile app concept" data-om-id="8b8f0336:145">
+        <img src="visuals/ui-appointment.webp" alt="" aria-hidden="true" data-om-id="8b8f0336:146">
+        <img src="visuals/ui-facephones.webp" alt="" aria-hidden="true" data-om-id="8b8f0336:147">
+      </div></div>
+      <div class="col c2" data-om-id="8b8f0336:148"><div class="col-track" data-om-id="8b8f0336:149">
+        <img src="visuals/ui-face.png" alt="UI — mobile concept" data-om-id="8b8f0336:150">
+        <img src="visuals/ui-avantgarde.png" alt="UI — editorial layout" data-om-id="8b8f0336:151">
+        <img src="visuals/ui-vasdfrns2.png" alt="UI — music editorial" data-om-id="8b8f0336:152">
+        <img src="visuals/ui-face.png" alt="" aria-hidden="true" data-om-id="8b8f0336:153">
+        <img src="visuals/ui-avantgarde.png" alt="" aria-hidden="true" data-om-id="8b8f0336:154">
+        <img src="visuals/ui-vasdfrns2.png" alt="" aria-hidden="true" data-om-id="8b8f0336:155">
+      </div></div>
+    </div>
+    <div class="foot" data-om-id="81245080:137"><span class="l" data-om-id="81245080:138">Ali Said</span><span class="r" data-om-id="81245080:139">Approach</span></div>
+  </section>
+
+  <section class="divider chapter light has-curve" data-screen-label="06 Motion Design Process" data-om-id="80925038:143" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-deck-slide="5">
+    <div class="chap-num anim" data-om-id="80925038:144">02</div>
+    <div class="eyebrow anim-2" data-om-id="80925038:145"><span class="bar" data-om-id="80925038:146"></span><span data-om-id="80925038:147">The Approach</span></div>
+    <h2 class="div-title anim-2" data-om-id="80925038:148">Motion Design</h2>
+    <p class="div-sub anim-3" data-om-id="80925038:149">How I define motion as a functional layer of UX — and hand it to engineers as specification.</p>
+    <div class="motion-curve anim-3" aria-hidden="true" data-om-id="8b8f0336:166">
+      <svg viewBox="0 0 1040 1180" fill="none" aria-hidden="true" data-om-id="8b8f0336:167"><line class="mc-grid" x1="249" y1="70" x2="249" y2="1080" data-om-id="8b8f0336:168"></line><line class="mc-grid" x1="348" y1="70" x2="348" y2="1080" data-om-id="8b8f0336:169"></line><line class="mc-grid" x1="447" y1="70" x2="447" y2="1080" data-om-id="8b8f0336:170"></line><line class="mc-grid" x1="546" y1="70" x2="546" y2="1080" data-om-id="8b8f0336:171"></line><line class="mc-grid" x1="645" y1="70" x2="645" y2="1080" data-om-id="8b8f0336:172"></line><line class="mc-grid" x1="744" y1="70" x2="744" y2="1080" data-om-id="8b8f0336:173"></line><line class="mc-grid" x1="843" y1="70" x2="843" y2="1080" data-om-id="8b8f0336:174"></line><line class="mc-grid" x1="942" y1="70" x2="942" y2="1080" data-om-id="8b8f0336:175"></line><line class="mc-grid" x1="110" y1="150" x2="980" y2="150" data-om-id="8b8f0336:176"></line><line class="mc-grid" x1="110" y1="247" x2="980" y2="247" data-om-id="8b8f0336:177"></line><line class="mc-grid" x1="110" y1="344" x2="980" y2="344" data-om-id="8b8f0336:178"></line><line class="mc-grid" x1="110" y1="441" x2="980" y2="441" data-om-id="8b8f0336:179"></line><line class="mc-grid" x1="110" y1="538" x2="980" y2="538" data-om-id="8b8f0336:180"></line><line class="mc-grid" x1="110" y1="635" x2="980" y2="635" data-om-id="8b8f0336:181"></line><line class="mc-grid" x1="110" y1="732" x2="980" y2="732" data-om-id="8b8f0336:182"></line><line class="mc-grid" x1="110" y1="829" x2="980" y2="829" data-om-id="8b8f0336:183"></line><line class="mc-grid" x1="110" y1="926" x2="980" y2="926" data-om-id="8b8f0336:184"></line><line class="mc-grid" x1="110" y1="1023" x2="980" y2="1023" data-om-id="8b8f0336:185"></line><path class="mc-fan2" d="M150 1020 C 308 889.5, 308 150 940 150" data-om-id="8b8f0336:186"></path><path class="mc-fan2" d="M150 1020 C 308 759, 308 150 940 150" data-om-id="8b8f0336:187"></path><path class="mc-fan2" d="M150 1020 C 308 628.5, 308 150 940 150" data-om-id="8b8f0336:188"></path><path class="mc-fan2" d="M150 1020 C 308 498, 308 150 940 150" data-om-id="8b8f0336:189"></path><path class="mc-fan2" d="M150 1020 C 308 193.5, 308 150 940 150" data-om-id="8b8f0336:190"></path><path class="mc-fan2" d="M150 1020 C 308 62.999999999999886, 308 150 940 150" data-om-id="8b8f0336:191"></path><path class="mc-fan2" d="M150 1020 C 308 -67.5, 308 150 940 150" data-om-id="8b8f0336:192"></path><path class="mc-fan2" d="M150 1020 C 308 -198, 308 150 940 150" data-om-id="8b8f0336:193"></path><path class="mc-fan" d="M150 1020 C 545 1020, 813.6 150 940 150" data-om-id="8b8f0336:194"></path><path class="mc-fan" d="M150 1020 C 545 1020, 687.2 150 940 150" data-om-id="8b8f0336:195"></path><path class="mc-fan" d="M150 1020 C 545 1020, 560.8 150 940 150" data-om-id="8b8f0336:196"></path><path class="mc-fan" d="M150 1020 C 545 1020, 434.4 150 940 150" data-om-id="8b8f0336:197"></path><line class="mc-handle" x1="150" y1="1020" x2="308" y2="324" data-om-id="8b8f0336:198"></line><line class="mc-handle" x1="940" y1="150" x2="308" y2="150" data-om-id="8b8f0336:199"></line><path class="mc-glow" d="M150 1020 C 308 324, 308 150 940 150" data-om-id="8b8f0336:200"></path><path class="mc-curve" d="M150 1020 C 308 324, 308 150 940 150" data-om-id="8b8f0336:201"></path></svg>
+    </div>
+  </section>
+
+  <section data-screen-label="07 Motion Reel" data-om-id="81245080:147" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-deck-slide="6">
+    <div class="eyebrow anim" data-om-id="81245080:152"><span class="bar" data-om-id="81245080:153"></span><span data-om-id="81245080:154">Motion Reel</span></div>
+    <div class="reel-frame anim-2" style="position:relative; width:min(1480px,100%); height:760px; margin:64px auto auto; border:1px solid var(--line); border-radius:16px; overflow:hidden; background:#000;" data-om-id="8b8f0336:206">
+      <video id="reel" src="uploads/ux-reel.mp4" muted="" playsinline="" preload="auto" style="width:100%; height:100%; object-fit:contain; background:#000;" data-om-id="81245080:149"></video>
+      <button class="reel-play" id="reel-play" aria-label="Play motion reel" data-om-id="81245080:150"><span class="tri" data-om-id="81245080:151"></span></button>
+      <div class="reel-ctrls" id="reel-ctrls">
+        <button class="reel-btn" id="reel-mute" aria-label="Toggle sound" title="Toggle sound">🔇</button>
+        <span class="reel-time" id="reel-time">0:00 / 0:00</span>
+        <input class="reel-seek" id="reel-seek" type="range" min="0" max="1000" value="0" aria-label="Scrub timeline">
+      </div>
+    </div>
+    <div class="foot" data-om-id="8b8f0336:210"><span class="l" data-om-id="8b8f0336:211">Ali Said</span><span class="r" data-om-id="8b8f0336:212">Motion</span></div>
+  </section>
+
+  <section data-screen-label="08 Motion Design Process" data-om-id="81245080:633" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-deck-slide="7">
+    <div class="head-block" data-om-id="81245080:634">
+      <div class="eyebrow anim" data-om-id="81245080:635"><span class="bar" data-om-id="81245080:636"></span><span data-om-id="81245080:637">Motion — Design Process</span></div>
+      <h2 class="title anim" data-om-id="81245080:638">Motion, defined before it is built.</h2>
+    </div>
+    <div class="flow anim-2" data-om-id="81245080:639">
+      <div class="stops" data-om-id="81245080:640">
+        <div class="stop" data-om-id="81245080:641"><div class="node" data-om-id="81245080:642"></div><div class="n" data-om-id="81245080:643">01</div><div class="t" data-om-id="81245080:644">Audit the experience</div></div>
+        <div class="stop" data-om-id="81245080:645"><div class="node" data-om-id="81245080:646"></div><div class="n" data-om-id="81245080:647">02</div><div class="t" data-om-id="81245080:648">Find where motion helps</div></div>
+        <div class="stop" data-om-id="81245080:649"><div class="node" data-om-id="81245080:650"></div><div class="n" data-om-id="81245080:651">03</div><div class="t" data-om-id="81245080:652">Define principles &amp; behaviors</div></div>
+        <div class="stop" data-om-id="81245080:661"><div class="node" data-om-id="81245080:662"></div><div class="n" data-om-id="81245080:663">04</div><div class="t" data-om-id="81245080:664">Specify for engineering</div></div>
+        <div class="stop" data-om-id="81245080:665"><div class="node" data-om-id="81245080:666"></div><div class="n" data-om-id="81245080:667">05</div><div class="t" data-om-id="81245080:668">Support build &amp; QA</div></div>
+      </div>
+    </div>
+    <p class="cap" style="margin-bottom:16px;" data-om-id="81245080:669">Timeline — audit through build &amp; QA; motion defined before it’s built.</p>
+    <div class="foot" data-om-id="81245080:670"><span class="l" data-om-id="81245080:671">Ali Said&nbsp;&nbsp;·&nbsp;&nbsp;Clarity, continuity, feedback, perceived performance</span><span class="r" data-om-id="81245080:672">Motion</span></div>
+  </section>
+
+  <section data-screen-label="09 b Motion Audit" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-om-id="8b8f0336:245" data-deck-slide="8">
+    <div class="eyebrow anim" data-om-id="8b8f0336:246"><span class="bar" data-om-id="8b8f0336:247"></span><span data-om-id="8b8f0336:248">Motion — Auditing for Motion</span></div>
+    <h2 class="title anim" style="font-size:48px; margin-top:12px;" data-om-id="8b8f0336:249">Break each flow into its initial and final state.</h2>
+    <div class="audit2 anim-2" data-om-id="8b8f0336:250">
+      <image-slot id="audit-initial" class="abox" style="left:430px; top:350px; width:280px; height:96px;" shape="rounded" radius="22" placeholder="Initial state UI" data-om-id="8b8f0336:251" data-editable=""></image-slot>
+      <image-slot id="audit-final" class="abox" style="left:1120px; top:55px; width:340px; height:450px;" shape="rounded" radius="22" placeholder="Final state UI" data-om-id="8b8f0336:252" data-editable=""></image-slot>
+      <svg viewBox="0 0 1520 600" fill="none" aria-hidden="true" data-om-id="8b8f0336:253">
+        <defs data-om-id="8b8f0336:254">
+          <linearGradient id="auditGrad" x1="0" y1="0" x2="1" y2="0" data-om-id="8b8f0336:255">
+            <stop offset="0" stop-color="oklch(0.66 0.05 235)" data-om-id="8b8f0336:256"></stop>
+            <stop offset="1" stop-color="oklch(0.64 0.05 300)" data-om-id="8b8f0336:257"></stop>
+          </linearGradient>
+        </defs>
+        <path class="aconn" d="M300 372 H392 L430 396" data-om-id="8b8f0336:258"></path>
+        <path class="aconn" d="M640 350 L676 248 H812" data-om-id="8b8f0336:259"></path>
+        <path class="aconn" d="M1052 258 H1108" data-om-id="8b8f0336:260"></path>
+        <path class="aconn" d="M1092 248 L1108 258 L1092 268" data-om-id="8b8f0336:261"></path>
+      </svg>
+      <div class="ann c-blue" style="left:60px; top:300px;" data-om-id="8b8f0336:262">
+        <h4 data-om-id="8b8f0336:263">Gesture Confirmation</h4>
+        <p data-om-id="8b8f0336:264">When a user initiates an interaction and needs immediate feedback that their input was received.</p>
+      </div>
+      <div class="ann c-violet" style="left:812px; top:196px;" data-om-id="8b8f0336:265">
+        <h4 data-om-id="8b8f0336:266">Motion Opportunities</h4>
+        <p data-om-id="8b8f0336:267">Depending on context, motion opportunities may include <b data-om-id="8b8f0336:268">Motion Affordance</b>, <b data-om-id="8b8f0336:269">Latency Masking</b>, and/or <b data-om-id="8b8f0336:270">Spatial Continuity</b>.</p>
+      </div>
+      <div class="slabel" style="left:430px; top:460px; width:280px;" data-om-id="8b8f0336:271">Initial state</div>
+      <div class="slabel" style="left:1120px; top:518px; width:340px;" data-om-id="8b8f0336:272">Final state</div>
+    </div>
+    <div class="foot" data-om-id="8b8f0336:273"><span class="l" data-om-id="8b8f0336:274">Ali Said</span><span class="r" data-om-id="8b8f0336:275">Motion</span></div>
+  </section>
+
+  <section data-screen-label="10 Motion Handoff" data-om-id="81245080:673" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-deck-slide="9">
+    <div class="eyebrow anim" data-om-id="81245080:674"><span class="bar" data-om-id="81245080:675"></span><span data-om-id="81245080:676">Motion — Engineering Handoff</span></div>
+    <div class="handoff" data-om-id="81245080:677">
+      <div data-om-id="81245080:678">
+        <p class="stmt anim-2" data-om-id="81245080:679">Motion that’s easy for engineers to build accurately — not just impressive in a prototype.</p>
+        <p class="note anim-2" data-om-id="81245080:680">I work directly inside product orgs, handing off motion as specification rather than suggestion, then supporting QA to protect the intended experience.</p>
+      </div>
+      <div class="timingspec anim-3" data-om-id="81245080:681">
+        <div class="ts-head" data-om-id="8b8f0336:285">
+          <span class="ts-title" data-om-id="8b8f0336:286">Timing Specification</span>
+          <span class="ts-ease" data-om-id="8b8f0336:287">cubic-bezier(.2,.8,.2,1)</span>
+        </div>
+        <div class="ts-row" data-om-id="8b8f0336:288">
+          <span class="ts-prop" data-om-id="8b8f0336:289">Opacity</span>
+          <span class="ts-val" data-om-id="8b8f0336:290">0 → 100%</span>
+          <div class="ts-track" data-om-id="8b8f0336:291"><div class="ts-bar up c1" style="left:0%; width:62.5%;" data-om-id="8b8f0336:292"></div></div>
+          <span class="ts-dur c1" data-om-id="8b8f0336:293">200ms</span>
+        </div>
+        <div class="ts-row" data-om-id="8b8f0336:294">
+          <span class="ts-prop" data-om-id="8b8f0336:295">Translate Y</span>
+          <span class="ts-val" data-om-id="8b8f0336:296">16px → 0</span>
+          <div class="ts-track" data-om-id="8b8f0336:297"><div class="ts-bar down c2" style="left:12.5%; width:75%;" data-om-id="8b8f0336:298"></div></div>
+          <span class="ts-dur c2" data-om-id="8b8f0336:299">240ms</span>
+        </div>
+        <div class="ts-row" data-om-id="8b8f0336:300">
+          <span class="ts-prop" data-om-id="8b8f0336:301">Scale</span>
+          <span class="ts-val" data-om-id="8b8f0336:302">0.96 → 1</span>
+          <div class="ts-track" data-om-id="8b8f0336:303"><div class="ts-bar up c3" style="left:0%; width:50%;" data-om-id="8b8f0336:304"></div></div>
+          <span class="ts-dur c3" data-om-id="8b8f0336:305">160ms</span>
+        </div>
+        <div class="ts-axis-row" data-om-id="8b8f0336:306">
+          <div class="ts-ticks" data-om-id="8b8f0336:307"><span data-om-id="8b8f0336:308">0</span><span data-om-id="8b8f0336:309">80</span><span data-om-id="8b8f0336:310">160</span><span data-om-id="8b8f0336:311">240</span><span data-om-id="8b8f0336:312">320ms</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="foot" data-om-id="81245080:706"><span class="l" data-om-id="81245080:707">Ali Said</span><span class="r" data-om-id="81245080:708">Motion</span></div>
+  </section>
+
+  <section class="divider chapter light" data-screen-label="11 Case Study" data-om-id="80925038:226" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-deck-slide="10">
+    <div class="chap-num anim" data-om-id="80925038:227">03</div>
+    <div class="eyebrow anim-2" data-om-id="80925038:228"><span class="bar" data-om-id="80925038:229"></span><span data-om-id="80925038:230">The Work</span></div>
+    <h2 class="div-title anim-2" data-om-id="80925038:231">Case Study</h2>
+    <p class="div-sub anim-3" data-om-id="80925038:232">A project where visual craft and motion did real usability work.</p>
+    <div class="case-pills anim-3" data-om-id="8b8f0336:323">
+      <span class="cp" data-om-id="8b8f0336:324"><span class="d" data-om-id="8b8f0336:325"></span>BMW</span>
+    </div>
+  </section>
+
+  <section data-screen-label="12 BMW" data-om-id="e8884605:374" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-deck-slide="11">
+    <div class="eyebrow anim" data-om-id="e8884605:375"><span class="bar" data-om-id="e8884605:376"></span><span data-om-id="e8884605:377">Case Study 01 — BMW</span></div>
+    <div class="case" data-om-id="e8884605:378">
+      <div class="case-text" data-om-id="e8884605:379">
+        <h2 class="brand anim" data-om-id="e8884605:380">BMW</h2>
+        <p class="desc anim-2" data-om-id="e8884605:381">In-Car Voice UI</p>
+        <p class="body anim-2" data-om-id="e8884605:382">Designing how a driver talks to their car — a voice experience that had to feel premium and stay effortless while the driver keeps their eyes on the road. <span style="color:var(--ink-3);" data-om-id="e8884605:383"></span></p>
+        <div class="tags anim-3" data-om-id="e8884605:384"><span data-om-id="e8884605:385">Voice UI</span><span data-om-id="e8884605:386">In-vehicle</span><span data-om-id="e8884605:387">Motion + audio feedback</span><span data-om-id="e8884605:388">Safety-critical</span></div>
+      </div>
+      <div class="art anim-3" style="height:600px;" data-om-id="e8884605:389">
+        <video id="bmw-voice-hero" src="uploads/BMW active-bb9fc710.mp4" data-autoplay="" autoplay="" muted="" loop="" playsinline="" preload="auto" style="width:100%; height:600px; object-fit:cover; background:#000; border:1px solid var(--line); border-radius:16px; display:block;" data-om-id="8b8f0336:342"></video>
+        <p class="cap" data-om-id="e8884605:391">Visual: the voice UI in its real context — the car.</p>
+      </div>
+    </div>
+    <div class="foot" data-om-id="e8884605:392"><span class="l" data-om-id="e8884605:393">Ali Said</span><span class="r" data-om-id="e8884605:394">BMW · 01 / 04</span></div>
+  </section>
+
+  <section data-screen-label="13 BMW Problem" data-om-id="81245080:176" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-deck-slide="12">
+    <div class="eyebrow anim" data-om-id="81245080:177"><span class="bar" data-om-id="81245080:178"></span><span data-om-id="81245080:179">BMW — The Problem</span></div>
+    <div class="imgsplit" style="margin-top:8px;" data-om-id="81245080:180">
+      <div class="anim-2" data-om-id="81245080:181">
+        <p class="big" style="font-size: 32px; height: 150px; line-height: 1.35;" data-om-id="81245080:182"><b data-om-id="81245080:183">The starting point: type every search — while driving.</b> BMW’s original in-car search lived on the center-console touchscreen, with an on-screen keyboard.</p>
+        <ul class="points muted" style="margin-top:14px;" data-om-id="81245080:184">
+          <li data-om-id="81245080:185"><i data-om-id="81245080:186">—</i> Drivers search each destination, letter by letter.</li>
+          <li data-om-id="81245080:187"><i data-om-id="81245080:188">—</i> Eyes on the screen and a hand off the wheel.</li>
+          <li data-om-id="81245080:189"><i data-om-id="81245080:190">—</i> Basic, slow, and distracting in motion.</li>
+          <li data-om-id="81245080:191"><i data-om-id="81245080:192">—</i> Far from the premium, driver-friendly BMW standard.</li>
+        </ul>
+      </div>
+      <div class="art anim-3" style="height:680px;" data-om-id="81245080:193">
+        <image-slot id="bmw-context" src="visuals/bmw-initial-state.png" shape="rounded" radius="16" placeholder="[ORIGINAL STATE: center-console touchscreen with on-screen keyboard]" data-om-id="81245080:194" data-editable="" data-filled=""></image-slot>
+        <p class="cap" data-om-id="81245080:195">Visual: the original input — typing a destination on the center-console touchscreen.</p>
+      </div>
+    </div>
+    <div class="foot" data-om-id="81245080:196"><span class="l" data-om-id="81245080:197">Ali Said</span><span class="r" data-om-id="81245080:198">BMW · 02 / 04</span></div>
+  </section>
+
+  <section data-screen-label="14 BMW Wireframe" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-om-id="8b8f0336:370" data-deck-slide="13">
+    <div class="eyebrow anim" data-om-id="8b8f0336:371"><span class="bar" data-om-id="8b8f0336:372"></span><span data-om-id="8b8f0336:373">BMW — Voice UI Wireframe</span></div>
+    <div style="display:grid; grid-template-columns:1.25fr 0.9fr; gap:56px; flex:1; align-items:center; margin-top:10px;" data-om-id="8b8f0336:374">
+      <div class="art anim-2" style="justify-content:center;" data-om-id="8b8f0336:375">
+        <div style="width:82%; height:600px; border:1px solid var(--line); border-radius:16px; overflow:hidden; background:#000; margin:0 auto;" data-om-id="8b8f0336:376"><video src="uploads/vui wire.mp4" data-autoplay="" autoplay="" muted="" loop="" playsinline="" preload="auto" style="width:100%; height:100%; object-fit:cover; transform:scale(1.4); display:block; filter:invert(1) hue-rotate(180deg);" data-om-id="8b8f0336:377"></video></div>
+      </div>
+      <div class="anim-3" data-om-id="8b8f0336:378">
+        <p style="font-size:26px; line-height:1.46; color:var(--ink-2); margin:0 0 30px; max-width:500px;" data-om-id="8b8f0336:379">The voice UI mapped as a state machine — every step in the search flow gets a distinct, legible signal so the driver always knows where they are.</p>
+        <div class="statelist" data-om-id="8b8f0336:380">
+          <div class="s" data-om-id="8b8f0336:381"><span class="dot" data-om-id="8b8f0336:382"></span><span data-om-id="8b8f0336:383">Idle</span><span class="k" data-om-id="8b8f0336:384">at rest</span></div>
+          <div class="s" data-om-id="8b8f0336:385"><span class="dot" data-om-id="8b8f0336:386"></span><span data-om-id="8b8f0336:387">Activated &amp; Ready</span><span class="k" data-om-id="8b8f0336:388">awaiting</span></div>
+          <div class="s" data-om-id="8b8f0336:389"><span class="dot" data-om-id="8b8f0336:390"></span><span data-om-id="8b8f0336:391">Listening</span><span class="k" data-om-id="8b8f0336:392">capturing</span></div>
+          <div class="s" data-om-id="8b8f0336:393"><span class="dot" data-om-id="8b8f0336:394"></span><span data-om-id="8b8f0336:395">Processing</span><span class="k" data-om-id="8b8f0336:396">interpreting</span></div>
+          <div class="s" data-om-id="8b8f0336:397"><span class="dot" data-om-id="8b8f0336:398"></span><span data-om-id="8b8f0336:399">Result</span><span class="k" data-om-id="8b8f0336:400">resolve</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="foot" data-om-id="8b8f0336:401"><span class="l" data-om-id="8b8f0336:402">Ali Said</span><span class="r" data-om-id="8b8f0336:403">BMW · Voice UI</span></div>
+  </section>
+
+  <section data-screen-label="15 BMW Execution" data-om-id="81245080:199" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-deck-slide="14">
+    <div class="eyebrow anim" data-om-id="81245080:200"><span class="bar" data-om-id="81245080:201"></span><span data-om-id="81245080:202">BMW — My Role &amp; the Voice UI</span></div>
+    <p class="meta anim-2" style="margin-top:18px;" data-om-id="81245080:203">Role — Visual &amp; motion design for the in-car voice experience</p>
+    <p class="vstate-intro anim-2" style="margin-top:14px; font-size: 36px;" data-om-id="81245080:204">Strategic <b data-om-id="81245080:205">visual motion and auditory cues</b> kept the driver aware of the search status at all times — eyes on the road, never guessing what the system was doing.</p>
+    <div class="states-row anim-3" data-om-id="81245080:206">
+      <div class="statecard" data-om-id="81245080:207">
+        <div class="vslot" id="bmw-vid-ready" data-om-id="81245080:208"><video src="uploads/BMW active.mp4" data-autoplay="" autoplay="" muted="" loop="" playsinline="" preload="auto" data-om-id="8b8f0336:414"></video></div>
+        <div class="srow" data-om-id="81245080:213"><span class="num" data-om-id="81245080:214">01</span><h3 data-om-id="81245080:215">Activated &amp; Ready</h3></div>
+        <p data-om-id="81245080:216">The system is awake and waiting — a calm, present state that signals it’s ready for a command.</p>
+      </div>
+      <div class="statecard" data-om-id="81245080:217">
+        <div class="vslot" id="bmw-vid-listening" data-om-id="81245080:218"><video src="uploads/BMW listening.mp4" data-autoplay="" autoplay="" muted="" loop="" playsinline="" preload="auto" data-om-id="8b8f0336:421"></video></div>
+        <div class="srow" data-om-id="81245080:223"><span class="num" data-om-id="81245080:224">02</span><h3 data-om-id="81245080:225">Listening</h3></div>
+        <p data-om-id="81245080:226">Actively capturing the driver’s voice — motion responds to input so they know they’re being heard.</p>
+      </div>
+      <div class="statecard" data-om-id="81245080:227">
+        <div class="vslot" id="bmw-vid-calculating" data-om-id="81245080:228"><video src="uploads/BMW loading.mp4" data-autoplay="" autoplay="" muted="" loop="" playsinline="" preload="auto" data-om-id="8b8f0336:428"></video></div>
+        <div class="srow" data-om-id="81245080:233"><span class="num" data-om-id="81245080:234">03</span><h3 data-om-id="81245080:235">Calculating</h3></div>
+        <p data-om-id="81245080:236">Processing and searching — motion communicates progress so the wait never feels uncertain.</p>
+      </div>
+    </div>
+    <div class="foot" data-om-id="81245080:237"><span class="l" data-om-id="81245080:238">Ali Said</span><span class="r" data-om-id="81245080:239">BMW · 03 / 04</span></div>
+  </section>
+
+  <section data-screen-label="16 BMW Result" data-om-id="81245080:240" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-deck-slide="15">
+    <div class="eyebrow anim" data-om-id="81245080:241"><span class="bar" data-om-id="81245080:242"></span><span data-om-id="81245080:243">BMW — Result &amp; Impact</span></div>
+    <div class="result-grid" style="margin-top:8px; grid-template-columns:1.52fr 0.6fr; gap:60px;" data-om-id="81245080:244">
+      <div class="art anim-2" style="justify-content:center;" data-om-id="81245080:245">
+        <div class="vidframe" data-om-id="8b8f0336:442">
+          <video id="bmw-vui-result" src="uploads/BMW VUI 4.mp4" loop="" playsinline="" preload="auto" onclick="window.__toggleVUI&amp;&amp;window.__toggleVUI()" data-om-id="8b8f0336:443"></video>
+          <button id="vui-play" class="vui-play" aria-label="Play video" onclick="window.__toggleVUI&amp;&amp;window.__toggleVUI()" data-om-id="8b8f0336:444"></button>
+          <button id="vui-mute" class="vui-mute on" aria-label="Toggle sound" onclick="window.__toggleMute&amp;&amp;window.__toggleMute(event)" data-om-id="8b8f0336:445"><span class="ic" data-om-id="8b8f0336:446"></span><span class="lbl" data-om-id="8b8f0336:447">Sound on</span></button>
+        </div>
+      </div>
+      <div class="stack" style="gap:32px;" data-om-id="81245080:248">
+        <ul class="impacts anim-3" data-om-id="81245080:249">
+          <li style="font-size:24px; padding:15px 0;" data-om-id="81245080:262"><i data-om-id="8b8f0336:451">—</i> Drivers understood the search status at every moment — visual, auditory, and motion cues working together.</li>
+          <li style="font-size:24px; padding:15px 0;" data-om-id="81245080:250"><i data-om-id="81245080:251">—</i> Invisible system states made visible — ready, listening, or working, at a glance.</li>
+          <li style="font-size:24px; padding:15px 0;" data-om-id="81245080:252"><i data-om-id="81245080:253">—</i> Less repetition and hesitation, because status was never ambiguous.</li>
+          <li style="font-size:24px; padding:15px 0;" data-om-id="81245080:254"><i data-om-id="81245080:255">—</i> A calmer, more trustworthy experience, with minimal distraction.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot" data-om-id="81245080:259"><span class="l" data-om-id="81245080:260">Ali Said</span><span class="r" data-om-id="81245080:261">BMW · 04 / 04</span></div>
+  </section>
+
+  <section class="divider chapter light" data-screen-label="17 Selected Work" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-om-id="8b8f0336:461" data-deck-slide="16">
+    <div class="chap-num anim" data-om-id="8b8f0336:462">04</div>
+    <div class="eyebrow anim-2" data-om-id="8b8f0336:463"><span class="bar" data-om-id="8b8f0336:464"></span><span data-om-id="8b8f0336:465">The Work</span></div>
+    <h2 class="div-title anim-2" data-om-id="8b8f0336:466">Selected Work</h2>
+    <p class="div-sub anim-3" data-om-id="8b8f0336:467">Product and UI design for early-stage startups.</p>
+    <div class="case-pills anim-3" data-om-id="8b8f0336:468">
+      <span class="cp" data-om-id="8b8f0336:469"><span class="d" data-om-id="8b8f0336:470"></span>Akkio</span>
+      <span class="cp" data-om-id="8b8f0336:471"><span class="d" data-om-id="8b8f0336:472"></span>CΔDDIE</span>
+      <span class="cp" data-om-id="8b8f0336:473"><span class="d" data-om-id="8b8f0336:474"></span>Nourish+Bloom</span>
+    </div>
+  </section>
+
+  <section data-screen-label="18 a Akkio" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-om-id="8b8f0336:475" data-deck-slide="17">
+    <div class="eyebrow anim" data-om-id="8b8f0336:476"><span class="bar" data-om-id="8b8f0336:477"></span><span data-om-id="8b8f0336:478">Selected Work — Akkio</span></div>
+    <div class="art anim-2" style="flex:1; min-height:0; margin-top:34px; display:flex; align-items:center; justify-content:center;" data-om-id="8b8f0336:479"><div style="height:100%; aspect-ratio:16/9; max-width:100%; border:2px solid rgba(255,255,255,0.45); border-radius:16px; overflow:hidden; background:#000;" data-om-id="8b8f0336:480"><video src="uploads/15-akkio.mp4" data-autoplay="" autoplay="" muted="" loop="" playsinline="" preload="auto" style="width:100%; height:100%; object-fit:cover; display:block;" data-om-id="8b8f0336:481"></video></div></div>
+    <div class="foot" data-om-id="8b8f0336:482"><span class="l" data-om-id="8b8f0336:483">Ali Said</span><span class="r" data-om-id="8b8f0336:484">Selected Work</span></div>
+  </section>
+
+  <section data-screen-label="20 b2 CADDIE" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-om-id="8b8f0336:497" data-deck-slide="19" data-deck-active="">
+    <div class="eyebrow anim" data-om-id="8b8f0336:498"><span class="bar" data-om-id="8b8f0336:499"></span><span data-om-id="8b8f0336:500">Selected Work — CΔDDIE</span></div>
+    <div class="phones-strip anim-2" data-om-id="8b8f0336:501">
+      <img src="visuals/caddie-icon.png" alt="Selected Work — CΔDDIE — icon" style="height:740px;" data-om-id="8b8f0336:505">
+      <img src="visuals/caddie-search.png" alt="Selected Work — CΔDDIE — search" style="height:740px;" data-om-id="8b8f0336:502">
+      <img src="visuals/caddie-profile.png" alt="Selected Work — CΔDDIE — profile" style="height:740px;" data-om-id="8b8f0336:503">
+      <img src="visuals/caddie-confirm.png" alt="Selected Work — CΔDDIE — confirm" style="height:740px;" data-om-id="8b8f0336:504">
+    </div>
+    <div class="foot" data-om-id="8b8f0336:506"><span class="l" data-om-id="8b8f0336:507">Ali Said</span><span class="r" data-om-id="8b8f0336:508">Selected Work</span></div>
+  </section><section data-screen-label="19 b CADDIE" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-om-id="8b8f0336:485" data-deck-slide="18">
+    <div class="eyebrow anim" data-om-id="8b8f0336:486"><span class="bar" data-om-id="8b8f0336:487"></span><span data-om-id="8b8f0336:488">Selected Work — CΔDDIE</span></div>
+    <div class="phones-strip anim-2" data-om-id="8b8f0336:489">
+      <img src="visuals/caddie-home.png" alt="Selected Work — CΔDDIE — home" style="height:740px;" data-om-id="8b8f0336:490">
+      <img src="visuals/caddie-courses.png" alt="Selected Work — CΔDDIE — courses" style="height:740px;" data-om-id="8b8f0336:491">
+      <img src="visuals/caddie-teetime.png" alt="Selected Work — CΔDDIE — teetime" style="height:740px;" data-om-id="8b8f0336:492">
+      <img src="visuals/caddie-list.png" alt="Selected Work — CΔDDIE — list" style="height:740px;" data-om-id="8b8f0336:493">
+    </div>
+    <div class="foot" data-om-id="8b8f0336:494"><span class="l" data-om-id="8b8f0336:495">Ali Said</span><span class="r" data-om-id="8b8f0336:496">Selected Work</span></div>
+  </section>
+
+  
+
+  <section data-screen-label="21 c Nourish+Bloom" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-om-id="8b8f0336:509" data-deck-slide="20">
+    <div class="eyebrow anim" data-om-id="8b8f0336:510"><span class="bar" data-om-id="8b8f0336:511"></span><span data-om-id="8b8f0336:512">Selected Work — Nourish+Bloom</span></div>
+    <div class="phones-strip sharp anim-2" data-om-id="8b8f0336:513">
+      <img src="visuals/nb-login.png" alt="Nourish+Bloom — login" style="height:660px;" data-om-id="8b8f0336:514">
+      <img src="visuals/nb-scan.png" alt="Nourish+Bloom — scan" style="height:660px;" data-om-id="8b8f0336:515">
+      <img src="visuals/nb-pick.png" alt="Nourish+Bloom — pick" style="height:660px;" data-om-id="8b8f0336:516">
+      <img src="visuals/nb-beverages.png" alt="Nourish+Bloom — beverages" style="height:660px;" data-om-id="8b8f0336:517">
+      <img src="visuals/nb-track.png" alt="Nourish+Bloom — track" style="height:660px;" data-om-id="8b8f0336:518">
+    </div>
+    <div class="foot" data-om-id="8b8f0336:519"><span class="l" data-om-id="8b8f0336:520">Ali Said</span><span class="r" data-om-id="8b8f0336:521">Selected Work</span></div>
+  </section>
+
+  <section class="closing light" data-screen-label="22 Closing" data-om-id="81245080:738" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-deck-slide="21" data-deck-last="" data-deck-last-visible="">
+    <div class="layer mid" data-om-id="8b8f0336:523">
+      <div class="eyebrow anim" style="margin-bottom:48px;" data-om-id="8b8f0336:524"><span class="bar" data-om-id="8b8f0336:525"></span><span data-om-id="8b8f0336:526">In Closing</span></div>
+      <h2 class="big anim-2" data-om-id="8b8f0336:527">Product design with visual precision and motion intelligence.</h2>
+      <p class="sub anim-3" data-om-id="8b8f0336:528">I help product teams turn complex experiences into interfaces that feel clear, premium, and effortless.</p>
+      <div class="sign anim-3" data-om-id="8b8f0336:529"><span class="bar" data-om-id="8b8f0336:530"></span><b data-om-id="8b8f0336:531">Ali Said</b><span data-om-id="8b8f0336:532">Product / Visual / Motion Design</span></div>
+    </div>
+  </section>
+
+</deck-stage>
+
+<div id="tweaks-root"></div>
+
+<script src="deck-stage.js"></script>
+<script src="image-slot.js"></script>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="tweaks-app.jsx"></script>
+
+<script>
+  (function () {
+    function playIn(scope) {
+      if (!scope) return;
+      scope.querySelectorAll('video[data-autoplay]').forEach(function (v) {
+        var p = v.play(); if (p && p.catch) p.catch(function () {});
+      });
+    }
+    window.addEventListener('load', function () {
+      playIn(document);
+      if (window.__resources && window.__resources.bmwInitial) {
+        var bc = document.getElementById('bmw-context');
+        if (bc) bc.setAttribute('src', window.__resources.bmwInitial);
+      }
+      var reel = document.getElementById('reel'), btn = document.getElementById('reel-play');
+      if (reel && btn) {
+        btn.addEventListener('click', function () { reel.play(); });
+        reel.addEventListener('click', function () { reel.paused ? reel.play() : reel.pause(); });
+        reel.addEventListener('play', function () { btn.classList.add('hidden'); });
+        reel.addEventListener('pause', function () { btn.classList.remove('hidden'); });
+        reel.addEventListener('ended', function () { btn.classList.remove('hidden'); });
+        var mute = document.getElementById('reel-mute'),
+            seek = document.getElementById('reel-seek'),
+            tlabel = document.getElementById('reel-time'),
+            ctrls = document.getElementById('reel-ctrls');
+        function fmt(t) { t = Math.max(0, t|0); var m = (t/60)|0, s = t%60; return m + ':' + (s<10?'0':'') + s; }
+        function syncTime() {
+          if (tlabel) tlabel.textContent = fmt(reel.currentTime) + ' / ' + fmt(reel.duration || 0);
+          if (seek && reel.duration && !seek.dataset.drag) seek.value = Math.round((reel.currentTime / reel.duration) * 1000);
+        }
+        if (mute) {
+          mute.textContent = reel.muted ? '🔇' : '🔊';
+          mute.addEventListener('click', function (ev) {
+            ev.stopPropagation();
+            reel.muted = !reel.muted;
+            mute.textContent = reel.muted ? '🔇' : '🔊';
+            if (ctrls) ctrls.classList.add('show');
+          });
+        }
+        if (seek) {
+          seek.addEventListener('input', function () {
+            seek.dataset.drag = '1';
+            if (reel.duration) reel.currentTime = (seek.value / 1000) * reel.duration;
+          });
+          seek.addEventListener('change', function () { delete seek.dataset.drag; });
+          seek.addEventListener('click', function (ev) { ev.stopPropagation(); });
+        }
+        reel.addEventListener('timeupdate', syncTime);
+        reel.addEventListener('loadedmetadata', syncTime);
+      }
+    });
+    var ds = document.querySelector('deck-stage');
+    if (ds) ds.addEventListener('slidechange', function (e) {
+      if (e.detail && e.detail.slide) playIn(e.detail.slide);
+      var reel = document.getElementById('reel');
+      if (reel && e.detail && e.detail.slide && !e.detail.slide.contains(reel)) { reel.pause(); reel.currentTime = 0; }
+    });
+  })();
+</script>
+
+<script>
+  (function () {
+    var V = function () { return document.getElementById('bmw-vui-result'); };
+    window.__toggleVUI = function () {
+      var v = V(); if (!v) return;
+      if (v.paused) { v.muted = false; var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+      else { v.pause(); }
+    };
+    window.__toggleMute = function (e) {
+      if (e) { e.stopPropagation(); }
+      var v = V(), m = document.getElementById('vui-mute'); if (!v) return;
+      v.muted = !v.muted;
+      if (m) { m.classList.toggle('on', !v.muted); var l = m.querySelector('.lbl'); if (l) l.textContent = v.muted ? 'Sound off' : 'Sound on'; }
+    };
+    function wire() {
+      var v = V(); if (!v) return;
+      var b = document.getElementById('vui-play');
+      v.addEventListener('play', function () { b && b.classList.add('hidden'); });
+      v.addEventListener('pause', function () { b && b.classList.remove('hidden'); });
+      var ds = document.querySelector('deck-stage');
+      if (ds) ds.addEventListener('slidechange', function (e) {
+        if (e.detail && e.detail.slide && !e.detail.slide.contains(v)) { v.pause(); v.currentTime = 0; }
+      });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire);
+    else wire();
+  })();
+</script>
+
+<template id="__bundler_thumbnail" data-bg-color="#0a0a0b">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0a0a0b"/>
+    <text x="120" y="430" font-family="Helvetica, Arial, sans-serif" font-size="150" font-weight="700" fill="#f4f2ed" letter-spacing="-6">Ali Said</text>
+    <text x="124" y="510" font-family="monospace" font-size="34" fill="#9a978f" letter-spacing="4">PRODUCT DESIGNER</text>
+    <rect x="124" y="300" width="64" height="6" fill="#c6ac6b"/>
+  </svg>
+</template>
+</body>
+</html>
